@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URI")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// model Image {
+//   fieldname    String
+//   originalname String
+//   encoding     String
+//   mimetype     String
+//   destination  String
+//   filename     String
+//   path         String
+//   size         Int
+
+//   @@unique([filename])
+// }
+
+// model LicenseCategory {
+// }
+
+model License {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  licenseNo  String   @unique
+  name       String
+  image      Json
+  fatherName String
+  cnic       String   @unique
+  category   Json[]
+  issueDate  DateTime
+  expiryDate DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("licenses")
+}
