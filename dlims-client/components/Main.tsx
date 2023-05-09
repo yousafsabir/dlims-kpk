@@ -29,9 +29,6 @@ const Main: React.FC = () => {
           Units are operated throughout KPK.
         </p>
       </div>
-      <h1 className="text-4xl pt-10 text-[#666666] font-semibold ">
-        Our Services
-      </h1>
       <Services/>
       <div className="w-full flex flex-col items-center max-w-lg text-center gap-4">
         <h1 className="text-3xl font-bold tracking-normal">
