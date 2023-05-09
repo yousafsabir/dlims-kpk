@@ -10,33 +10,6 @@ interface ContactFormFields {
 }
 
 const Contact: React.FC = () => {
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phoneNumber, setPhoneNumber] = useState("");
-  // const [message, setMessage] = useState("");
-
-  // const handleSubmit = async (e:any) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await fetch("/api/contact", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         name,
-  //         email,
-  //         phoneNumber,
-  //         message,
-  //       }),
-  //     });
-  //     const data = await res.json();
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   const [contactFields, setcontactFields] =
     useState<ContactFormFields>({
       name: "",
@@ -100,56 +73,7 @@ const Contact: React.FC = () => {
           <h2 className="text-[#242A56] text-3xl font-bold pb-3">
             Send your Query
           </h2>
-          {/* <form
-            onSubmit={handleSubmit}
-            className="flex flex-col space-y-4 max-w-md items-start"
-          >
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
-              className="p-[10px] outline-none border w-[375px]"
-              placeholder="Your Name *"
-            />
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
-              className="p-[10px] outline-none border w-[375px]"
-              placeholder="Your Email *"
-            />
-            <input
-              type="number"
-              id="phoneNumber"
-              value={phoneNumber}
-              onChange={(e) =>
-                setPhoneNumber(e.target.value)
-              }
-              className="p-[10px] outline-none border w-[375px]"
-              placeholder="Your Phone Number *"
-            />
-            <textarea
-              id="message"
-              value={message}
-              onChange={(e) =>
-                setMessage(e.target.value)
-              }
-              placeholder="your message *"
-              className="p-[10px] border outline-none h-32 w-[450px]"
-            />
-            <button
-              type="submit"
-              className="p-3 w-32 h-12 hover:bg-blue-500 active:bg-[#4D61D6] bg-[#4D61D6] text-white rounded-lg text-sm"
-            >
-              SUBMIT
-            </button>
-          </form> */}
+
           <div>
             <form
               onSubmit={handleSubmit}
@@ -190,7 +114,7 @@ const Contact: React.FC = () => {
                 id="message"
                 name="message"
                 placeholder="your message *"
-                className="p-[10px] rounded-lg border outline-none h-32 w-full md:w-[440px]"
+                className="p-[10px] rounded-lg border outline-none h-32 w-full sm:w-4/5 md:w-[375px] resize-none"
                 value={contactFields.message}
                 onChange={handleChange}
                 required

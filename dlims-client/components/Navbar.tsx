@@ -1,10 +1,10 @@
 "use client";
 
-import HamburgerIcon from "@/app/assets/Hamburger";
+import HamburgerIcon from "@/assets/Hamburger";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
+import { NavbarOptions } from "@/constants/navbar";
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -19,35 +19,20 @@ const Navbar: React.FC = () => {
           alt="LOGO"
           width={70}
           height={70}
-          src="/main_logo.png"
+          src="/images/main_logo.png"
         />
       </div>
       <div className="hidden lg:block">
         <div className="flex justify-center items-center gap-3">
-          <Link
-            href="#home"
-            className="p-4 hover:bg-slate-100"
-          >
-            <h2>Home</h2>
-          </Link>
-          <Link
-            href="#Services"
-            className="p-4 hover:bg-slate-100"
-          >
-            <h2>Services</h2>
-          </Link>
-          <Link
-            href="#RoadSafety"
-            className="p-4 hover:bg-slate-100"
-          >
-            <h2>Road Safety</h2>
-          </Link>
-          <Link
-            href="#Contact"
-            className="p-4 hover:bg-slate-100"
-          >
-            <h2>Contact us</h2>
-          </Link>
+          {NavbarOptions.map((item) => (
+            <Link
+              href={item.id}
+              key={item.id}
+              className="transition-opacity opacity-75 hover:opacity-100 rounded-lg font-bold"
+            >
+              <h2>{item.title}</h2>
+            </Link>
+          ))}
         </div>
       </div>
       <div className="block lg:hidden">
@@ -56,11 +41,6 @@ const Navbar: React.FC = () => {
           onClick={toggleMenu}
         >
           <HamburgerIcon />
-          {/* {isMenuOpen ? (
-            <HamburgerIcon />
-          ) : (
-            <HamburgerIcon />
-          )} */}
         </button>
         <div
           className={`${
@@ -68,30 +48,15 @@ const Navbar: React.FC = () => {
           } w-full p-2 block lg:flex lg:items-center lg:w-auto`}
         >
           <div className="flex absolute w-36 p-2 transition-all ease-in-out duration-400 right-2 rounded-lg bg-black text-white opacity-80 flex-col justify-start items-start gap-3">
-            <Link
-              href="#home"
-              className="p-2 rounded-lg hover:text-gray-800 hover:bg-slate-100"
-            >
-              <h2>Home</h2>
-            </Link>
-            <Link
-              href="#Services"
-              className="p-2 rounded-lg hover:text-gray-800 hover:bg-slate-100"
-            >
-              <h2>Services</h2>
-            </Link>
-            <Link
-              href="#RoadSafety"
-              className="p-2 rounded-lg hover:text-gray-800 hover:bg-slate-100"
-            >
-              <h2>Road Safety</h2>
-            </Link>
-            <Link
-              href="#Contact"
-              className="p-2 rounded-lg hover:text-gray-800 hover:bg-slate-100"
-            >
-              <h2>Contact us</h2>
-            </Link>
+            {NavbarOptions.map((item) => (
+              <Link
+                key={item.id}
+                href={item.id}
+                className="p-2 rounded-lg hover:text-gray-800 hover:bg-slate-100"
+              >
+                <h2>{item.title}</h2>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

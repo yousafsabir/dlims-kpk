@@ -15,3 +15,7 @@
 .bg-footer{
     background-color: rgb(0 0 0 / 90%);
 }
+
+html{
+    scroll-behavior: smooth;
+}

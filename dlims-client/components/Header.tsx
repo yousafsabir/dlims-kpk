@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 
 const Header: React.FC = () => {
   return (
-    <div className="relative h-[100vh] w-full bg-[url('/banner.jpeg')] bg-no-repeat bg-cover bg-center">
+    <div className="relative h-[100vh] w-full bg-[url('/images/banner.jpeg')] bg-no-repeat bg-cover bg-center">
       <div className="absolute w-full h-full bg-black opacity-70" />
       <div className="absolute w-full text-white tracking-wide">
         <div>

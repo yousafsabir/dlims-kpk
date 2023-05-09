@@ -1,63 +1,9 @@
 "use client";
-// import React, { useState } from "react";
-
-// const LicenseVerification: React.FC = () => {
-//   const [licenceData, setLicenseData] = useState({});
-//   const [cnic, setCnic] = useState();
-
-//   const handleSearch = async (cnic) => {
-//     try {
-//       const response = await axios.get(
-//         `http://localhost:3000/license?cnic=${cnic}`
-//       );
-//       setLicenseData(response.data);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   return (
-//     <div className="w-full px-7 leading-5 py-4 max-w-[700px] box-shadow h-max min-h-[220px] flex flex-col items-center text-[#666666] rounded-2xl border-[3px] border-blue-600">
-//       <h2 className="text-3xl mt-2">
-//         Driving License Verification
-//         <span className="text-blue-500 font-bold">
-//           Panel
-//         </span>
-//       </h2>
-//       <input
-//         className="w-full m-5 px-3 py-2 border rounded-lg text-sm outline-none"
-//         placeholder="Please Enter Your CNIC without dashes. e.g, (1111122222223)"
-//         onChange={(e) => setCnic(e.target.value)}
-//       />
-//       <button
-//         className="w-[300px] bg-[#3198D3] text-sm mt-2 p-3 border rounded-lg font-semibold text-white"
-//         onClick={() => handleSearch(cnic)}
-//       >
-//         SEARCH
-//       </button>
-//       {Object.keys(licenseData).length > 0 && (
-//         <div className="mt-5">
-//           <p>License Number: {licenseData.licenseNumber}</p>
-//           <p>Name: {licenseData.name}</p>
-//           <p>
-//             Father/Husband Name: {licenseData.fatherName}
-//           </p>
-//           <p>License Category: {licenseData.category}</p>
-//           <p>Issue Date: {licenseData.issueDate}</p>
-//           <p>Expire Date: {licenseData.expireDate}</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default LicenseVerification;
-
 import { useState } from "react";
 import axios from "axios";
 
 interface VerificationData {
-  licenseNumber: string;
+  licenseNo: string;
   name: string;
   fatherName: string;
   licenseCategory: string;
@@ -66,6 +12,7 @@ interface VerificationData {
 }
 
 const LicenseVerification = () => {
+
   const [cnic, setCnic] = useState<string>("");
   const [verificationData, setVerificationData] =
     useState<VerificationData | null>(null);
@@ -80,7 +27,7 @@ const LicenseVerification = () => {
 
   //   const verificationDataDummy = [
   //     {
-  //       licenseNumber: "1111122222223",
+  //       licenseNo: "1111122222223",
   //       name: "Raza",
   //       fatherName: "Ahmed",
   //       licenseCategory: "Bike",
@@ -140,7 +87,7 @@ const LicenseVerification = () => {
                 License Number:
               </h2>
               <p className=" sm:text-xl">
-                {verificationData.licenseNumber}
+                {verificationData.licenseNo}
               </p>
             </div>
             <div className="flex border-b-2 gap-2b-2 gap-5 font-bold">

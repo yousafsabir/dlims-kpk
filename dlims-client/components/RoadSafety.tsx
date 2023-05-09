@@ -3,7 +3,7 @@ import React from "react";
 
 const RoadSafety: React.FC = () => {
   return (
-    <div id="RoadSafety" className="px-10 md:px-16">
+    <div id="RoadSafety" className="px-5">
       <div className="bg-[#EFF2FF] rounded-lg py-[70px] space-y-4 my-16 px-5 w-full flex flex-col items-center justify-center text-center">
         <h1 className="text-3xl text-[#242A56] font-semibold ">
           "Your Life is Important"
@@ -70,7 +70,7 @@ const RoadSafety: React.FC = () => {
           <div>
             <Image
               alt="Traffic Instructions Image"
-              src="/trafficInstructions.png"
+              src="/images/trafficInstructions.png"
               height={630}
               width={350}
             />
@@ -126,16 +126,16 @@ const RoadSafety: React.FC = () => {
               separate the parts of a road to be used by
               vehicles travelling in opposite directions.
             </p>
-            <div className="flex gap-5">
+            <div className="flex gap-5 flex-wrap">
               <Image
                 alt="Broken Line"
-                src="/broken_line.gif"
+                src="/images/broken_line.gif"
                 width={260}
                 height={200}
               />
               <Image
                 alt="Broken Line"
-                src="/broken_line_left.gif"
+                src="/images/broken_line_left.gif"
                 width={260}
                 height={200}
               />
@@ -153,16 +153,16 @@ const RoadSafety: React.FC = () => {
               Continuous Line (or Single Continous Line to
               the left of a Broken Line).
             </p>
-            <div className="flex gap-5">
+            <div className="flex gap-5 flex-wrap">
               <Image
                 alt="Broken Line"
-                src="/continous_line_left.gif"
+                src="/images/continous_line_left.gif"
                 width={260}
                 height={200}
               />
               <Image
                 alt="Broken Line"
-                src="/single_continous_line.gif"
+                src="/images/single_continous_line.gif"
                 width={260}
                 height={200}
               />
@@ -192,16 +192,16 @@ const RoadSafety: React.FC = () => {
                 safely because the onus is on you to take
                 the risk of danger into account.
               </p>
-              <div className="flex gap-5">
+              <div className="flex gap-5 flex-wrap">
                 <Image
                   alt="Broken Line"
-                  src="/obstruction.gif"
+                  src="/images/obstruction.gif"
                   width={260}
                   height={200}
                 />
                 <Image
                   alt="Broken Line"
-                  src="/broken_lane_left.gif"
+                  src="/images/broken_lane_left.gif"
                   width={260}
                   height={200}
                 />
@@ -226,7 +226,7 @@ const RoadSafety: React.FC = () => {
               <div className="flex flex-wrap gap-5">
                 <Image
                   alt="Broken Line"
-                  src="/straddling.gif"
+                  src="/images/straddling.gif"
                   width={260}
                   height={200}
                 />
@@ -236,7 +236,7 @@ const RoadSafety: React.FC = () => {
                   </h1>
                   <Image
                     alt="Broken Line"
-                    src="/solid_lane_line.gif"
+                    src="/images/solid_lane_line.gif"
                     width={260}
                     height={200}
                   />
@@ -266,7 +266,7 @@ const RoadSafety: React.FC = () => {
               <div className="flex flex-wrap gap-5">
                 <Image
                   alt="Broken Line"
-                  src="/straddling.gif"
+                  src="/images/straddling.gif"
                   width={260}
                   height={200}
                 />
@@ -276,7 +276,7 @@ const RoadSafety: React.FC = () => {
                   </h1>
                   <Image
                     alt="Broken Line"
-                    src="/solid_lane_line.gif"
+                    src="/images/solid_lane_line.gif"
                     width={260}
                     height={200}
                   />

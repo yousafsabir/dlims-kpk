@@ -2,7 +2,6 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Main from "@/components/Main";
-import Navbar from "@/components/Navbar";
 import RoadSafety from "@/components/RoadSafety";
 
 export default function Home() {
