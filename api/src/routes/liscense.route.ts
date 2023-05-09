@@ -11,6 +11,7 @@ licenseRouter
   .route('/')
   .get(authenticate, licenseController.getLicenses)
   .post(
+    authenticate,
     upload.single('image'),
     validateData(licenseSchema.createLicenseSchema),
     licenseController.createLicense
