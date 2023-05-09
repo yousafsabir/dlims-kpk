@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         <div className="md:h-32 md:w-32">
           <Image
             alt="Logo"
-            src="/main_logo.png"
+            src="/images/main_logo.png"
             width={110}
             height={110}
           />
