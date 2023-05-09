@@ -8,14 +8,14 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+html{
+    scroll-behavior: smooth !important;
+}
+
 .box-shadow{
     box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.3);
 }
 
 .bg-footer{
     background-color: rgb(0 0 0 / 90%);
-}
-
-html{
-    scroll-behavior: smooth;
 }
