@@ -7,7 +7,7 @@ import type {
 } from '@/shared/interfaces/user.interface'
 import { TypedRequest, TypedResponse } from '@/shared/utils/genericTypeUtils'
 import asyncHandler from '@/shared/utils/asyncHandler'
-import HttpEception from '@/shared/utils/HttpEception'
+import HttpException from '@/shared/utils/HttpException'
 import { comparePassword } from '@/shared/utils/bcrypt'
 import { generateToken } from '@/shared/utils/jwt'
 import TrimUser from '@/shared/utils/trimUser'
@@ -24,8 +24,12 @@ export const registerUser = asyncHandler(
         message: 'User Created',
         user: new TrimUser({ ...user, token: generateToken(user.id) }),
       })
-    } catch (err) {
-      next(new HttpEception(500, 'Internal Server Error'))
+    } catch (error: any) {
+      if (error instanceof HttpException) {
+        next(new HttpException(error.status, error.message, error.details))
+      } else {
+        next(new HttpException(500, 'Internal Server Error'))
+      }
     }
   }
 )
@@ -38,19 +42,23 @@ export const loginUser = async function (
   try {
     let user = await userService.getUserByEmail(req.body.email)
     if (!user) {
-      throw new HttpEception(404, "User Deoesn't Exist")
+      throw new HttpException(404, "User Deoesn't Exist")
     }
     //* comparing password
     const passMatch = await comparePassword(req.body.password, user.password)
     if (!passMatch) {
-      throw new HttpEception(400, 'Wrong Credentials')
+      throw new HttpException(400, 'Wrong Credentials')
     }
     return res.status(200).json({
       message: 'Logged In Successfully',
       user: new TrimUser({ ...user, token: generateToken(user.id) }),
     })
-  } catch (err: any) {
-    next(err)
+  } catch (error: any) {
+    if (error instanceof HttpException) {
+      next(new HttpException(error.status, error.message, error.details))
+    } else {
+      next(new HttpException(500, 'Internal Server Error'))
+    }
   }
 }
 
@@ -64,14 +72,18 @@ export const getMe = async function (
   try {
     let user = await userService.getUserById(req.body.id)
     if (!user) {
-      throw new HttpEception(404, "User Deoesn't Exist")
+      throw new HttpException(404, "User Deoesn't Exist")
     }
     return res.status(200).json({
       message: 'Get User Successfully',
       user: new TrimUser({ ...user, token: generateToken(user.id) }),
     })
-  } catch (err: any) {
-    next(err)
+  } catch (error: any) {
+    if (error instanceof HttpException) {
+      next(new HttpException(error.status, error.message, error.details))
+    } else {
+      next(new HttpException(500, 'Internal Server Error'))
+    }
   }
 }
 

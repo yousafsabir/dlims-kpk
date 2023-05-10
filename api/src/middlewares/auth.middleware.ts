@@ -1,6 +1,6 @@
 import { Request, NextFunction, RequestHandler } from 'express'
 import { verifyToken } from '@/shared/utils/jwt'
-import HttpException from '@/shared/utils/HttpEception'
+import HttpException from '@/shared/utils/HttpException'
 import { ResError } from '@/shared/interfaces/resError.interface'
 import { TypedResponse } from '@/shared/utils/genericTypeUtils'
 

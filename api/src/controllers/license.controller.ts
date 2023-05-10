@@ -5,7 +5,7 @@ import {
   LicenseDocument,
 } from '@/shared/interfaces/license.interface'
 import licenseService from '@/services/license.service'
-import HttpException from '@/shared/utils/HttpEception'
+import HttpException from '@/shared/utils/HttpException'
 import deleteFile from '@/shared/utils/deleteFile'
 
 export async function createLicense(
