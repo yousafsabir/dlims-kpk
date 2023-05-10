@@ -54,9 +54,31 @@ export const loginUser = async function (
   }
 }
 
+export const getMe = async function (
+  req: TypedRequest<{
+    id: string
+  }>,
+  res: TypedResponse<UserReturn | any>,
+  next: NextFunction
+) {
+  try {
+    let user = await userService.getUserById(req.body.id)
+    if (!user) {
+      throw new HttpEception(404, "User Deoesn't Exist")
+    }
+    return res.status(200).json({
+      message: 'Get User Successfully',
+      user: new TrimUser({ ...user, token: generateToken(user.id) }),
+    })
+  } catch (err: any) {
+    next(err)
+  }
+}
+
 const userController = {
-  registerUser, 
-  loginUser
+  registerUser,
+  loginUser,
+  getMe,
 }
 
 export default userController
