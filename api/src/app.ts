@@ -39,7 +39,7 @@ function App(router: Router): Application {
   })
 
   //* to serve static files
-  app.use('/public' ,express.static(path.join(__dirname, 'public')));
+  app.use('/public' ,express.static(path.join(__dirname, '../public')));
 
   //* Adding Root Router
   app.use('/api', router)
