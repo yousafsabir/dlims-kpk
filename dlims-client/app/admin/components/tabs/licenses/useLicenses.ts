@@ -8,9 +8,15 @@ import { Admin } from "@/shared/interfaces/admin";
 import { KyInstance } from "ky/distribution/types/ky";
 import useStatus from "@/shared/utils/useStatus";
 import toast from "react-hot-toast";
-import isEmpty from 'is-empty'
+import ky from "ky";
+import isEmpty from "is-empty";
 
-const useLicenses = (kyInstance: KyInstance) => {
+const useLicenses = () => {
+    const kyInstance = ky.create({
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+    });
     //* Status State
     const {
         status,
@@ -71,16 +77,16 @@ const useLicenses = (kyInstance: KyInstance) => {
     /* Search Parameters */
     const [search, setSearch] = useState({
         cnic: "",
-        sort: "descending",
+        sort: "desc",
         pagination: {
             page: 1,
-            limit: 10,
+            limit: 5,
             total: 0,
             prev: false,
             next: false,
         },
     });
-    console.log(search)
+    console.log(search);
     const [searchChange, setSearchChange] = useState<string>("");
     const searchStr = `?${search.cnic ? `cnic=${search.cnic}&` : ""}${
         search.pagination.page ? `page=${search.pagination.page}&` : ""
@@ -138,41 +144,14 @@ const useLicenses = (kyInstance: KyInstance) => {
     };
     useEffect(() => {
         if (paginationChange) {
-            // getOrders();
+            getLicenses();
             setPaginationChange(false);
         }
     }, [paginationChange]);
     /* ---------------- */
 
     //* Licenses State
-    const [licenses, setLicenses] = useState<LicenseI[]>([
-        {
-            licenseNo: "ZT44782",
-            name: "SHEHRYAR",
-            fatherName: "MUHAMMAD IQBAL",
-            category: [
-                { category: "M/CYCLE", place: 1 },
-                { category: "CAR", place: 2 },
-            ],
-            cnic: "3830111664367",
-            image: ApiUrls.images + "47eb69d5-c44a-49ba-9b7a-7b2fda9b1272.jpeg",
-            issueDate: "03/30/2023",
-            expiryDate: "03/30/2023",
-        },
-        {
-            licenseNo: "ZT44799",
-            name: "ADIL",
-            fatherName: "MUHAMMAD IQBAL",
-            category: [
-                { category: "M/CYCLE", place: 1 },
-                { category: "CAR", place: 2 },
-            ],
-            cnic: "3830111664367",
-            image: ApiUrls.images + "47eb69d5-c44a-49ba-9b7a-7b2fda9b1272.jpeg",
-            issueDate: "03/30/2023",
-            expiryDate: "03/30/2023",
-        },
-    ]);
+    const [licenses, setLicenses] = useState<LicenseI[]>([]);
 
     const onAddLicense = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -203,14 +182,21 @@ const useLicenses = (kyInstance: KyInstance) => {
         }
     };
 
-    const getLicenses = async (customSearch: string | undefined = undefined) => {
+    const getLicenses = async (
+        customSearch: string | undefined = undefined
+    ) => {
         try {
             setLoading();
             setSearchChange(searchStr);
-            const res: any = await kyInstance.get(ApiUrls.licenses.get + `${customSearch ? customSearch : searchStr}`).json();
+            const res: any = await kyInstance
+                .get(
+                    ApiUrls.licenses.get +
+                        `${customSearch ? customSearch : searchStr}`
+                )
+                .json();
             if (res.licenses) {
-                setLicenses([res.licenses]);
-                setSuccess(res.data.message);
+                setLicenses(res.licenses);
+                setSuccess(res.message);
                 setPagination(res.pagination);
             } else {
                 throw new Error("An error Occoured, refresh and try again");
@@ -370,6 +356,10 @@ const useLicenses = (kyInstance: KyInstance) => {
         },
     ];
 
+    useEffect(() => {
+        getLicenses();
+    }, []);
+
     return {
         status,
         editFlag,
@@ -380,6 +370,7 @@ const useLicenses = (kyInstance: KyInstance) => {
         licenses,
         formFields,
         onAddLicense,
+        getLicenses,
         // search & search handlers
         search,
         setSort,

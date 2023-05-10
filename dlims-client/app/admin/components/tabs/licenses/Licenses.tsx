@@ -3,10 +3,10 @@
 import { KyInstance } from "ky/distribution/types/ky";
 import { IoMdRefresh } from "react-icons/io";
 import isEmpty from "is-empty";
-import ReactLoading from 'react-loading'
+import ReactLoading from "react-loading";
 
 import useLicenses from "./useLicenses";
-const Licenses = ({ kyInstance }: { kyInstance: KyInstance }) => {
+const Licenses = () => {
     const {
         status,
         licenseForm,
@@ -15,6 +15,7 @@ const Licenses = ({ kyInstance }: { kyInstance: KyInstance }) => {
         handleCategory,
         licenses,
         onAddLicense,
+        getLicenses,
         search,
         setSort,
         setCnic,
@@ -22,7 +23,7 @@ const Licenses = ({ kyInstance }: { kyInstance: KyInstance }) => {
         disableApplyFilterBtn,
         prevPage,
         nextPage,
-    } = useLicenses(kyInstance);
+    } = useLicenses();
     return (
         <div className="flex flex-col items-center mt-8">
             <h1 className="text-4xl text-center font-bold mb-6">
@@ -37,7 +38,10 @@ const Licenses = ({ kyInstance }: { kyInstance: KyInstance }) => {
                 {formFields.map((field) =>
                     field.type === "checkbox" ? (
                         <>
-                            <p className="text-center label-text col-span-2">
+                            <p
+                                className="text-center label-text col-span-2"
+                                key={field.type}
+                            >
                                 {field.label}
                             </p>
                             <fieldset
@@ -135,8 +139,8 @@ const Licenses = ({ kyInstance }: { kyInstance: KyInstance }) => {
                             value={search.sort}
                             onChange={setSort}
                         >
-                            <option value={"descending"}>Newer</option>
-                            <option value={"ascending"}>Older</option>
+                            <option value={"desc"}>Newer</option>
+                            <option value={"asc"}>Older</option>
                         </select>
                     </fieldset>
                     {/* License Id */}
@@ -162,7 +166,7 @@ const Licenses = ({ kyInstance }: { kyInstance: KyInstance }) => {
                         <button
                             type="button"
                             className="btn btn-success btn-sm text-xl block"
-                            //   onClick={() => getOrders()}
+                            onClick={() => getLicenses()}
                             disabled={status.loading}
                         >
                             <IoMdRefresh />
@@ -222,29 +226,29 @@ const Licenses = ({ kyInstance }: { kyInstance: KyInstance }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {licenses.map((user, id) => (
+                        {licenses.map((license, id) => (
                             <tr key={id}>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    {user.licenseNo}
+                                    {license.licenseNo}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    {user.name}
+                                    {license.name}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    {user.fatherName}
+                                    {license.fatherName}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    {user.category.map((item) => (
+                                    {license.category.map((item) => (
                                         <span key={item.category}>
                                             {item.category}{" "}
                                         </span>
                                     ))}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    {user.issueDate}
+                                    {license.issueDate}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    {user.expiryDate}
+                                    {license.expiryDate}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     <button
