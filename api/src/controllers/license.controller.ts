@@ -7,6 +7,7 @@ import {
 import licenseService from '@/services/license.service'
 import HttpException from '@/shared/utils/HttpException'
 import deleteFile from '@/shared/utils/deleteFile'
+import { Pagination } from '@/shared/interfaces/pagination.interface'
 
 export async function createLicense(
   req: TypedRequest<LicenseI>,
@@ -61,14 +62,50 @@ export async function getLicense(
 
 export async function getLicenses(
   req: Request,
-  res: TypedResponse<{ message: string; licenses: LicenseDocument[] }>,
+  res: TypedResponse<{
+    message: string
+    licenses: LicenseDocument[]
+    pagination: Pagination
+  }>,
   next: NextFunction
 ) {
   try {
-    const licenses = await licenseService.getLicenses()
+    const { cnic, page, limit, order } = req.query
+    let pagination = {
+      page: page ? parseInt(page as string) : 1,
+      limit: limit ? parseInt(limit as string) : 5,
+      total: 0,
+      prev: false,
+      next: false,
+    }
+    if (cnic) {
+      const license = await licenseService.getLicenseByCNIC(cnic as string)
+      if (!license) {
+        throw new HttpException(404, 'License not found')
+      }
+      return res.status(200).json({
+        message: 'Get Licenses Succesfully',
+        licenses: [license],
+        pagination: { ...pagination, total: 1 },
+      })
+    }
+    pagination.total = await licenseService.countLicenses()
+    const startIdx = (pagination.page - 1) * pagination.limit
+    if (pagination.page * pagination.limit < pagination.total) {
+      pagination.next = true
+    }
+    if (startIdx > 0) {
+      pagination.prev = true
+    }
+    const licenses = await licenseService.getLicenses(
+      pagination.limit,
+      startIdx,
+      order as string
+    )
     return res.status(200).json({
       message: 'Get Licenses Succesfully',
       licenses: licenses,
+      pagination,
     })
   } catch (error) {
     if (error instanceof HttpException) {

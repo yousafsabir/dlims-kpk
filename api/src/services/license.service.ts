@@ -13,7 +13,7 @@ export async function createLicense(license: LicenseI) {
 export async function getLicenseById(id: string) {
   return await db.license.findUnique({
     where: {
-      id
+      id,
     },
   })
 }
@@ -34,8 +34,24 @@ export async function getLicenseByCNIC(CNIC: string) {
   })
 }
 
-export async function getLicenses() {
-  return await db.license.findMany()
+export async function countLicenses() {
+  return await db.license.count()
+}
+
+export async function getLicenses(
+  limit: number,
+  startIdx?: number,
+  sort?: string
+) {
+  return await db.license.findMany({
+    orderBy: sort
+      ? {
+          createdAt: sort as any,
+        }
+      : {},
+    skip: startIdx ? startIdx : 0,
+    take: limit,
+  })
 }
 
 export async function updateLicense(
@@ -71,6 +87,7 @@ const licenseService = {
   getLicenseById,
   getLicenseByLicense,
   getLicenseByCNIC,
+  countLicenses,
   getLicenses,
   updateLicense,
   deleteLicenseByLicense,
