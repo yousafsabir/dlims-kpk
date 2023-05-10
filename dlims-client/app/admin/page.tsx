@@ -9,11 +9,9 @@ import { Toaster } from "react-hot-toast";
 
 const AdminPanel = () => {
     const router = useRouter();
-    const [authToken, setAuthToken] = useState(
-        localStorage.getItem("authToken") || ""
-    );
+    const [authToken, setAuthToken] = useState("");
     console.log(authToken);
-    
+
     // ky instance
     const api = ky.create({
         headers: {
@@ -23,23 +21,23 @@ const AdminPanel = () => {
 
     // Admin Auth
     useEffect(() => {
-        const params = getQueryParams();
-        if (!authToken) {
-            if (params && params.token) {
-                setAuthToken(params.token);
-                localStorage.setItem("authToken", params.token);
-            } else {
-                router.push("/login");
+        if (typeof window !== undefined) {
+            const token = localStorage.getItem("authToken");
+            if(!token) {
+                return router.push("/admin")
             }
-        } else {
-            authenticate();
+            authenticate(token)
         }
     }, []);
 
     // authenticate me
-    async function authenticate() {
+    async function authenticate(token: string) {
         try {
-            const userRes = await api.get(ApiUrls.auth.authenticate);
+            const userRes = await api.get(ApiUrls.auth.authenticate, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
         } catch (error) {
             setAuthToken("");
             localStorage.removeItem("authToken");
@@ -49,7 +47,7 @@ const AdminPanel = () => {
 
     return (
         <>
-            <Licenses kyInstance={api} />;
+            <Licenses />;
             <Toaster />
         </>
     );

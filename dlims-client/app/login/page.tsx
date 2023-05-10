@@ -23,7 +23,8 @@ function Login() {
                 .json();
             console.log("response",response);
             const user: Admin = response?.user
-            router.push(`/admin?token=${user.token}`);
+            localStorage.setItem("authToken", user.token)
+            router.push("/admin");
         } catch (error: any) {
             const message = error?.message || "Server Error";
             alert(message);
