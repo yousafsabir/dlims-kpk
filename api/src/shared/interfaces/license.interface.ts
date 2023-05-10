@@ -26,7 +26,7 @@ export interface LicenseI {
   cnic: string
   category: Array<{
     category: string
-    place: string
+    place: number
   }>
   issueDate: Date
   expiryDate: Date
