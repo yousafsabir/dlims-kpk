@@ -3,6 +3,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import getQueryParams from "@/shared/utils/getQueryParams";
+import ky from "ky";
+import ApiUrls from "@/constants/ApiUrls";
+import { Admin } from "@/shared/interfaces/admin";
 
 const verificationDataDummy = [
     {
@@ -67,6 +70,12 @@ const AdminPanel = () => {
     const [authToken, setAuthToken] = useState(
         localStorage.getItem("authToken") || ""
     );
+    // ky instance
+    const api = ky.create({
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        },
+    });
     const [newUser, setNewUser] = useState<VerificationData>({
         licenseNo: "",
         name: "",
@@ -156,6 +165,7 @@ const AdminPanel = () => {
         }
     };
 
+    // Admin Auth
     useEffect(() => {
         const params = getQueryParams();
         if (!authToken) {
@@ -165,8 +175,21 @@ const AdminPanel = () => {
             } else {
                 router.push("/login");
             }
+        } else {
+            authenticate();
         }
     }, []);
+
+    // get my data
+    async function authenticate() {
+        try {
+            const userRes = await api.get(ApiUrls.auth.authenticate);
+        } catch (error) {
+            setAuthToken("");
+            localStorage.removeItem("authToken")
+            router.push("/login");
+        }
+    }
 
     return (
         <div className="flex flex-col items-center mt-8">

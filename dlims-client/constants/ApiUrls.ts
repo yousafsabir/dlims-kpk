@@ -5,7 +5,8 @@ const license = Api + "/licenses"
 const ApiUrls = {
     auth: {
         login: auth + "/login",
-        register: auth + "/register"
+        register: auth + "/register",
+        authenticate: auth + "/authenticate"
     },
     licenses: {
         create: license + "/",
