@@ -62,21 +62,18 @@ export const loginUser = async function (
   }
 }
 
-export const getMe = async function (
+export const authenticate = async function (
   req: TypedRequest<{
-    id: string
+    user: {
+      id: string
+    }
   }>,
-  res: TypedResponse<UserReturn | any>,
+  res: TypedResponse<{ message: string }>,
   next: NextFunction
 ) {
   try {
-    let user = await userService.getUserById(req.body.id)
-    if (!user) {
-      throw new HttpException(404, "User Deoesn't Exist")
-    }
     return res.status(200).json({
-      message: 'Get User Successfully',
-      user: new TrimUser({ ...user, token: generateToken(user.id) }),
+      message: 'User Authenticated Successfully',
     })
   } catch (error: any) {
     if (error instanceof HttpException) {
@@ -90,7 +87,7 @@ export const getMe = async function (
 const userController = {
   registerUser,
   loginUser,
-  getMe,
+  authenticate,
 }
 
 export default userController

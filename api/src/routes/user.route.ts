@@ -16,10 +16,6 @@ userRouter.post(
   validateData(userSchema.loginUserSchema),
   userController.loginUser
 )
-userRouter.get(
-  '/me',
-  authenticate,
-  userController.loginUser
-)
+userRouter.get('/authenticate', authenticate, userController.authenticate)
 
 export default userRouter
