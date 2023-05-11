@@ -44,11 +44,9 @@ export async function getLicenses(
   sort?: string
 ) {
   return await db.license.findMany({
-    orderBy: sort
-      ? {
-          createdAt: sort as any,
-        }
-      : {},
+    orderBy: {
+      createdAt: sort ? (sort as any) : 'desc',
+    },
     skip: startIdx ? startIdx : 0,
     take: limit,
   })

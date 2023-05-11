@@ -70,7 +70,7 @@ export async function getLicenses(
   next: NextFunction
 ) {
   try {
-    const { cnic, page, limit, order } = req.query
+    const { cnic, page, limit, sort } = req.query
     let pagination = {
       page: page ? parseInt(page as string) : 1,
       limit: limit ? parseInt(limit as string) : 5,
@@ -100,7 +100,7 @@ export async function getLicenses(
     const licenses = await licenseService.getLicenses(
       pagination.limit,
       startIdx,
-      order as string
+      sort as string
     )
     return res.status(200).json({
       message: 'Get Licenses Succesfully',
