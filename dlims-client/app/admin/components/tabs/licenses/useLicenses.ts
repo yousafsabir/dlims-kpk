@@ -41,7 +41,7 @@ const useLicenses = () => {
     issueDate: '',
     expiryDate: '',
   })
-  console.log('licenseForm-->', licenseForm)
+
   const handleLicenseForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = event.target
     if (name === 'image' && files) {
@@ -55,12 +55,6 @@ const useLicenses = () => {
         [name]: value,
       }))
     }
-    // else {
-    //   setLicenseForm((prevState) => ({
-    //     ...prevState,
-    //     [name]: value,
-    //   }));
-    // }
   }
 
   const handleCategory = (
@@ -85,7 +79,6 @@ const useLicenses = () => {
     setEditFlag(true)
     setLicenseForm({ ...license })
     setEditLicenseId(license.id)
-    console.log('licens>', license)
   }
 
   const resetLicenseForm = () => {

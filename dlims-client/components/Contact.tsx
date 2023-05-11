@@ -1,35 +1,47 @@
 'use client'
 import React, { useState } from 'react'
+import ReactLoading from 'react-loading'
 import axios from 'axios'
+import ky from 'ky'
+import ApiUrls from '@/constants/ApiUrls'
+import { Toaster, toast } from 'react-hot-toast'
 
 interface ContactFormFields {
   name: string
   email: string
-  phoneNumber: string
+  phone: string
   message: string
 }
 
 const Contact: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
   const [contactFields, setcontactFields] = useState<ContactFormFields>({
     name: '',
     email: '',
-    phoneNumber: '',
+    phone: '',
     message: '',
   })
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
 
+  const kyInstance = ky.create({
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+  })
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
     try {
-      const res = await axios.post('/api/contact', contactFields)
-      console.log(res.data)
+      console.log(contactFields, contactFields.email.indexOf)
+      const res = kyInstance.post(ApiUrls.contacts.create, {
+        json: contactFields as any,
+      })
+      toast.success('Email Successfully Received')
       setcontactFields({
         name: '',
         email: '',
-        phoneNumber: '',
+        phone: '',
         message: '',
       })
     } catch (err) {
@@ -88,11 +100,11 @@ const Contact: React.FC = () => {
               />
               <input
                 type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
+                id="phone"
+                name="phone"
                 className="p-[10px] rounded-lg outline-none border w-full sm:w-4/5 md:w-[375px]"
                 placeholder="Your Phone Number e.g, (+923330000000) *"
-                value={contactFields.phoneNumber}
+                value={contactFields.phone}
                 onChange={handleChange}
                 pattern="^\+92\d{10}$"
                 required
@@ -107,7 +119,7 @@ const Contact: React.FC = () => {
                 required
               />
               {isLoading ? (
-                <p>Sending...</p>
+            <ReactLoading type="spin" width={32} height={32} color="#999" />
               ) : (
                 <button
                   className="p-3 w-32 h-12 hover:bg-blue-500 active:bg-[#4D61D6] bg-[#4D61D6] text-white rounded-lg text-sm"
@@ -154,6 +166,7 @@ const Contact: React.FC = () => {
           loading="lazy"
         ></iframe>
       </div>
+      <Toaster />
     </div>
   )
 }

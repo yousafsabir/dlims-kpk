@@ -6,6 +6,7 @@ import ky from 'ky'
 import ApiUrls from '@/constants/ApiUrls'
 import Licenses from './components/tabs/licenses/Licenses'
 import { Toaster } from 'react-hot-toast'
+import ContactsPage from './components/tabs/contacts/Contacts'
 
 const AdminPanel = () => {
   const router = useRouter()
@@ -48,6 +49,7 @@ const AdminPanel = () => {
   return (
     <>
       <Licenses />;
+      <ContactsPage/>
       <Toaster />
     </>
   )
