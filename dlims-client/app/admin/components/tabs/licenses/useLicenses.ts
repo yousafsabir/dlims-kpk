@@ -1,17 +1,16 @@
 'use client'
 import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { LicenseI } from '@/shared/interfaces/License.interface'
 import { LicenseFormI } from './License.interface'
 import ApiUrls from '@/constants/ApiUrls'
-import { Admin } from '@/shared/interfaces/admin'
-import { KyInstance } from 'ky/distribution/types/ky'
 import useStatus from '@/shared/utils/useStatus'
 import toast from 'react-hot-toast'
 import ky from 'ky'
 import isEmpty from 'is-empty'
 
 const useLicenses = () => {
+  'use client'
   const kyInstance = ky.create({
     headers: {
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -29,6 +28,7 @@ const useLicenses = () => {
   //*---------------------------------
 
   //* Add/Edit License Form
+  const formRef = useRef<HTMLFormElement>(null)
   const [editFlag, setEditFlag] = useState<boolean>(false)
   const [editLicenseId, setEditLicenseId] = useState<string>('')
   const [licenseForm, setLicenseForm] = useState<LicenseFormI>({
@@ -83,9 +83,23 @@ const useLicenses = () => {
 
   const handleEdit = (license: LicenseI) => {
     setEditFlag(true)
-    setLicenseForm({ ...license, image: null })
+    setLicenseForm({ ...license })
     setEditLicenseId(license.id)
     console.log('licens>', license)
+  }
+
+  const resetLicenseForm = () => {
+    formRef.current?.reset()
+    setLicenseForm({
+      licenseNo: '',
+      name: '',
+      fatherName: '',
+      category: [],
+      cnic: '',
+      image: null,
+      issueDate: '',
+      expiryDate: '',
+    })
   }
 
   //*---------------------------------
@@ -178,28 +192,34 @@ const useLicenses = () => {
 
   //* Licenses State
   const [licenses, setLicenses] = useState<LicenseI[]>([])
+  console.log(licenses)
 
-  const onAddLicense = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const onAddAndUpdateLicense = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    addLicenseandEdit()
+    addAndUpdateLicense()
   }
 
-  //Add New One
-  const addLicenseandEdit = async () => {
-    const loadingToast = toast.loading('Adding License')
+  //Add & Update License
+  const addAndUpdateLicense = async () => {
+    const loadingToast = toast.loading(
+      `${editFlag ? 'Updating' : 'Adding'} License`
+    )
     try {
       // Form Data
       const form = new FormData()
       Object.entries(licenseForm).forEach(([key, value]) => {
-        if (value instanceof Array) {
-          console.log('got the categories')
-          form.append(key, JSON.stringify(value))
-        } else {
-          form.append(key, value)
+        if (!isEmpty(value)) {
+          if (value instanceof Array) {
+            form.append(key, JSON.stringify(value))
+          } else if (key === 'image' && typeof value !== 'string') {
+            form.append(key, value)
+          } else {
+            form.append(key, value)
+          }
         }
       })
       if (editFlag) {
-        // Editing an existing license
+        // Updating an existing license
         await kyInstance
           .put(ApiUrls.licenses.update + `${editLicenseId}`, {
             body: form,
@@ -213,18 +233,7 @@ const useLicenses = () => {
         })
         toast.success('License Added')
       }
-
-      // Clear the license form
-      setLicenseForm({
-        licenseNo: '',
-        name: '',
-        fatherName: '',
-        category: [],
-        cnic: '',
-        image: null,
-        issueDate: '',
-        expiryDate: '',
-      })
+      resetLicenseForm()
       getLicenses()
     } catch (error) {
       console.log(error)
@@ -257,20 +266,6 @@ const useLicenses = () => {
     }
   }
 
-  //   const onDeletLicense = async (cnic: string) => {
-  //     try {
-  //       await kyInstance.delete(
-  //         ApiUrls.licenses.delete + `${cnic}`
-  //       );
-  //       setLicenses(
-  //         licenses.filter((license) => license.cnic !== cnic)
-  //       );
-  //       // getLicenses();
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
   const onDeletLicense = async (cnic: string) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this license?'
@@ -280,9 +275,6 @@ const useLicenses = () => {
       try {
         const res = await kyInstance.delete(ApiUrls.licenses.delete + `${cnic}`)
         toast.success('License Deleted')
-        // if (editLicense && editLicense.cnic === cnic) {
-        //   setEditLicense(null);
-        // }
       } catch (error) {
         console.log(error)
       } finally {
@@ -290,66 +282,6 @@ const useLicenses = () => {
       }
     }
   }
-
-  // const handleEdit = (user: VerificationData) => {
-  //     setEditingUser(user);
-  //     setNewUser(user);
-  // };
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //     event.preventDefault();
-  //     if (editingUser) {
-  //         axios
-  //             .put(
-  //                 `http://localhost:8000/users/${editingUser.licenseNo}`,
-  //                 newUser
-  //             )
-  //             .then((response) => {
-  //                 console.log(response.data);
-  //                 setUsers(
-  //                     users.map((user) =>
-  //                         user.licenseNo === editingUser.licenseNo
-  //                             ? newUser
-  //                             : user
-  //                     )
-  //                 );
-  //                 setEditingUser(null);
-  //                 setNewUser({
-  //                     licenseNo: "",
-  //                     name: "",
-  //                     fatherName: "",
-  //                     licenseCategory: "",
-  //                     issueDate: "",
-  //                     expireDate: "",
-  //                 });
-  //                 alert("User updated successfully");
-  //             })
-  //             .catch((error) => {
-  //                 console.error(error);
-  //                 alert("Failed to update user");
-  //             });
-  //     } else {
-  //         axios
-  //             .post("http://localhost:8000/users/", newUser)
-  //             .then((response) => {
-  //                 console.log(response.data);
-  //                 setUsers([...users, newUser]);
-  //                 setNewUser({
-  //                     licenseNo: "",
-  //                     name: "",
-  //                     fatherName: "",
-  //                     licenseCategory: "",
-  //                     issueDate: "",
-  //                     expireDate: "",
-  //                 });
-  //                 alert("User added successfully");
-  //             })
-  //             .catch((error) => {
-  //                 console.error(error);
-  //                 alert("Failed to add user");
-  //             });
-  //     }
-  // };
 
   const formFields = [
     {
@@ -439,13 +371,14 @@ const useLicenses = () => {
     status,
     editFlag,
     setEditFlag,
+    formRef,
     licenseForm,
     handleLicenseForm,
     handleEdit,
     handleCategory,
     licenses,
     formFields,
-    onAddLicense,
+    onAddAndUpdateLicense,
     onDeletLicense,
     getLicenses,
     // search & search handlers

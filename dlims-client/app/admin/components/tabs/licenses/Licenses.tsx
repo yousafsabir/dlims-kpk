@@ -1,23 +1,22 @@
 'use client'
 
-import { KyInstance } from 'ky/distribution/types/ky'
 import { IoMdRefresh } from 'react-icons/io'
 import isEmpty from 'is-empty'
 import ReactLoading from 'react-loading'
+import ApiUrls from '@/constants/ApiUrls'
 
 import useLicenses from './useLicenses'
 const Licenses = () => {
   const {
     status,
+    formRef,
     licenseForm,
     formFields,
     handleLicenseForm,
     handleCategory,
     licenses,
-    onAddLicense,
-    setEditLicense,
+    onAddAndUpdateLicense,
     handleEdit,
-    editLicense,
     editFlag,
     onDeletLicense,
     getLicenses,
@@ -29,15 +28,15 @@ const Licenses = () => {
     prevPage,
     nextPage,
   } = useLicenses()
-  // console.log(licenses,'license-->')
   return (
     <div className="flex flex-col items-center mt-8">
       <h1 className="text-4xl text-center font-bold mb-6">Manage Licenses</h1>
       {/* Search Area */}
 
       <form
-        onSubmit={onAddLicense}
+        onSubmit={onAddAndUpdateLicense}
         className="max-w-lg mx-auto grid grid-cols-2 gap-4 mb-5"
+        ref={formRef}
       >
         {formFields.map((field) =>
           field.type === 'checkbox' ? (
@@ -74,6 +73,18 @@ const Licenses = () => {
             </>
           ) : field.type === 'file' ? (
             <fieldset className="form-control col-span-2" key={field.name}>
+              {licenseForm.image ? (
+                <div className="w-full h-[150px] flex justify-center">
+                  <img
+                    src={
+                      typeof licenseForm.image === 'string'
+                        ? licenseForm.image
+                        : URL.createObjectURL(licenseForm.image)
+                    }
+                    className="h-full object-contain flex-1"
+                  />
+                </div>
+              ) : null}
               <label className="label">
                 <span className="label-text">Image</span>
               </label>
@@ -83,7 +94,7 @@ const Licenses = () => {
                 name="image"
                 onChange={handleLicenseForm}
                 className="file-input file-input-bordered w-full"
-                required
+                required={!editFlag}
               />
             </fieldset>
           ) : (
@@ -188,6 +199,7 @@ const Licenses = () => {
         <table className="w-full max-w-7xl border-collapse border border-gray-300 my-4">
           <thead>
             <tr>
+              <th className="border border-gray-300 px-4 py-2">Image</th>
               <th className="border border-gray-300 px-4 py-2">
                 License Number
               </th>
@@ -204,6 +216,12 @@ const Licenses = () => {
           <tbody>
             {licenses.map((license, id) => (
               <tr key={id}>
+                <td className="border border-gray-300 px-4 py-2">
+                  <div className="h-[70px] flex justify-center">
+                    {/* <img src={ApiUrls.images + license.image} alt="" /> */}
+                    <img src="http://localhost:5000/public/images/47eb69d5-c44a-49ba-9b7a-7b2fda9b1272.jpeg" alt="" />
+                  </div>
+                </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {license.licenseNo}
                 </td>
