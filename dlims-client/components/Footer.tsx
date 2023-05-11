@@ -1,5 +1,5 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image'
+import React from 'react'
 
 const Footer: React.FC = () => {
   return (
@@ -24,19 +24,13 @@ const Footer: React.FC = () => {
         </div>
         <div className="flex flex-col w-48 md:max-w-xs space-y-2">
           <h2 className="text-xl">Get In Touch</h2>
-          <p>
-            Traffic police headquarters, phase 3 gulbahar,
-            Peshawar KPK.
-          </p>
+          <p>Traffic police headquarters, phase 3 gulbahar, Peshawar KPK.</p>
           <p>dlimskpkgov@gmail.com</p>
         </div>
       </div>
-      <p>
-        COPYRIGHT © 2022 - DLIMS PESHAWAR. ALL RIGHTS
-        RESERVED.
-      </p>
+      <p>COPYRIGHT © 2022 - DLIMS PESHAWAR. ALL RIGHTS RESERVED.</p>
     </div>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

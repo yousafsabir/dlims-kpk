@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import { KyInstance } from "ky/distribution/types/ky";
-import { IoMdRefresh } from "react-icons/io";
-import isEmpty from "is-empty";
-import ReactLoading from "react-loading";
+import { KyInstance } from 'ky/distribution/types/ky'
+import { IoMdRefresh } from 'react-icons/io'
+import isEmpty from 'is-empty'
+import ReactLoading from 'react-loading'
 
-import useLicenses from "./useLicenses";
+import useLicenses from './useLicenses'
 const Licenses = () => {
   const {
     status,
@@ -28,13 +28,11 @@ const Licenses = () => {
     disableApplyFilterBtn,
     prevPage,
     nextPage,
-  } = useLicenses();
+  } = useLicenses()
   // console.log(licenses,'license-->')
   return (
     <div className="flex flex-col items-center mt-8">
-      <h1 className="text-4xl text-center font-bold mb-6">
-        Manage Licenses
-      </h1>
+      <h1 className="text-4xl text-center font-bold mb-6">Manage Licenses</h1>
       {/* Search Area */}
 
       <form
@@ -42,12 +40,9 @@ const Licenses = () => {
         className="max-w-lg mx-auto grid grid-cols-2 gap-4 mb-5"
       >
         {formFields.map((field) =>
-          field.type === "checkbox" ? (
+          field.type === 'checkbox' ? (
             <>
-              <p
-                className="text-center label-text col-span-2"
-                key={field.type}
-              >
+              <p className="text-center label-text col-span-2" key={field.type}>
                 {field.label}
               </p>
               <fieldset
@@ -55,39 +50,30 @@ const Licenses = () => {
                 className="flex flex-wrap justify-center gap-3 col-span-2"
               >
                 {field.content?.map((item) => (
-                  <div
-                    className="form-control"
-                    key={item.name}
-                  >
+                  <div className="form-control" key={item.name}>
                     <label className="label cursor-pointer">
                       <input
                         type="checkbox"
                         className="checkbox checkbox-primary"
                         checked={
-                          licenseForm.category.find((cat)=> cat.category === item.value.category)
+                          licenseForm.category.find(
+                            (cat) => cat.category === item.value.category
+                          )
                             ? true
                             : false
                         }
                         onChange={(e) => {
-                          handleCategory(
-                            e.target.checked,
-                            item.value
-                          );
+                          handleCategory(e.target.checked, item.value)
                         }}
                       />
-                      <span className="label-text ml-1">
-                        {item.name}
-                      </span>
+                      <span className="label-text ml-1">{item.name}</span>
                     </label>
                   </div>
                 ))}
               </fieldset>
             </>
-          ) : field.type === "file" ? (
-            <fieldset
-              className="form-control col-span-2"
-              key={field.name}
-            >
+          ) : field.type === 'file' ? (
+            <fieldset className="form-control col-span-2" key={field.name}>
               <label className="label">
                 <span className="label-text">Image</span>
               </label>
@@ -103,20 +89,14 @@ const Licenses = () => {
           ) : (
             <fieldset key={field.name}>
               <label className="label" htmlFor={field.name}>
-                <span className="label-text">
-                  {field.label}
-                </span>
+                <span className="label-text">{field.label}</span>
               </label>
               <input
                 type={field.type}
                 id={field.name}
                 name={field.name}
                 //@ts-ignore
-                value={
-                  licenseForm[
-                    field.name as keyof typeof licenseForm
-                  ]
-                }
+                value={licenseForm[field.name as keyof typeof licenseForm]}
                 onChange={handleLicenseForm}
                 className="input input-bordered w-full"
                 required
@@ -126,7 +106,7 @@ const Licenses = () => {
         )}
         <fieldset className="col-span-2 flex justify-center">
           <button type="submit" className="btn btn-primary">
-           { editFlag ? "Update User" : "Add User"}
+            {editFlag ? 'Update User' : 'Add User'}
           </button>
         </fieldset>
       </form>
@@ -136,8 +116,8 @@ const Licenses = () => {
         <form
           className="flex items-center justify-between border border-gray-300 p-3 mb-4"
           onSubmit={(e) => {
-            e.preventDefault();
-            applySearch();
+            e.preventDefault()
+            applySearch()
           }}
         >
           {/* License' order */}
@@ -150,8 +130,8 @@ const Licenses = () => {
               value={search.sort}
               onChange={setSort}
             >
-              <option value={"desc"}>Newer</option>
-              <option value={"asc"}>Older</option>
+              <option value={'desc'}>Newer</option>
+              <option value={'asc'}>Older</option>
             </select>
           </fieldset>
           {/* License Id */}
@@ -185,17 +165,10 @@ const Licenses = () => {
           </div>
         </form>
       </header>
-      {isEmpty(licenses) ||
-      status.loading ||
-      status.error ? (
+      {isEmpty(licenses) || status.loading || status.error ? (
         <div className="w-full h-60 flex justify-center items-center">
           {status.loading ? (
-            <ReactLoading
-              type="spin"
-              width={32}
-              height={32}
-              color="#999"
-            />
+            <ReactLoading type="spin" width={32} height={32} color="#999" />
           ) : status.error ? (
             <h3 className="text-xl text-red-600 text-center">
               An Error Occoured: <br /> {status.message}
@@ -218,24 +191,14 @@ const Licenses = () => {
               <th className="border border-gray-300 px-4 py-2">
                 License Number
               </th>
-              <th className="border border-gray-300 px-4 py-2">
-                Name
-              </th>
-              <th className="border border-gray-300 px-4 py-2">
-                Father Name
-              </th>
+              <th className="border border-gray-300 px-4 py-2">Name</th>
+              <th className="border border-gray-300 px-4 py-2">Father Name</th>
               <th className="border border-gray-300 px-4 py-2">
                 License Category
               </th>
-              <th className="border border-gray-300 px-4 py-2">
-                Issue Date
-              </th>
-              <th className="border border-gray-300 px-4 py-2">
-                Expire Date
-              </th>
-              <th className="border border-gray-300 px-4 py-2">
-                Actions
-              </th>
+              <th className="border border-gray-300 px-4 py-2">Issue Date</th>
+              <th className="border border-gray-300 px-4 py-2">Expire Date</th>
+              <th className="border border-gray-300 px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -252,9 +215,7 @@ const Licenses = () => {
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {license.category.map((item) => (
-                    <span key={item.category}>
-                      {item.category}{" "}
-                    </span>
+                    <span key={item.category}>{item.category} </span>
                   ))}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
@@ -266,9 +227,7 @@ const Licenses = () => {
                 <td className="border border-gray-300 px-4 py-2">
                   <button
                     className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 mr-2"
-                    onClick={() =>
-                      onDeletLicense(license.cnic)
-                    }
+                    onClick={() => onDeletLicense(license.cnic)}
                   >
                     Delete
                   </button>
@@ -303,19 +262,15 @@ const Licenses = () => {
           </button>
         </div>
         <p>
-          Showing{" "}
-          {(search.pagination?.page - 1) *
-            search.pagination?.limit +
-            1}{" "}
+          Showing {(search.pagination?.page - 1) * search.pagination?.limit + 1}{' '}
           -
-          {(search.pagination?.page - 1) *
-            search.pagination?.limit +
-            licenses.length}{" "}
+          {(search.pagination?.page - 1) * search.pagination?.limit +
+            licenses.length}{' '}
           of {search.pagination?.total} Results
         </p>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default Licenses;
+export default Licenses

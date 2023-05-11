@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const HamburgerIcon = () => (
   <svg
@@ -10,6 +10,6 @@ const HamburgerIcon = () => (
   >
     <path d="M2.5 5.5h19c.276 0 .5.224.5.5s-.224.5-.5.5h-19c-.276 0-.5-.224-.5-.5s.224-.5.5-.5zm0 7h19c.276 0 .5.224.5.5s-.224.5-.5.5h-19c-.276 0-.5-.224-.5-.5s.224-.5.5-.5zm0 7h19c.276 0 .5.224.5.5s-.224.5-.5.5h-19c-.276 0-.5-.224-.5-.5s.224-.5.5-.5z" />
   </svg>
-);
+)
 
-export default HamburgerIcon;
+export default HamburgerIcon

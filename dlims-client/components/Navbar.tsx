@@ -1,26 +1,21 @@
-"use client";
+'use client'
 
-import HamburgerIcon from "@/assets/Hamburger";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { NavbarOptions } from "@/constants/navbar";
+import HamburgerIcon from '@/assets/Hamburger'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+import { NavbarOptions } from '@/constants/navbar'
 const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+    setIsMenuOpen(!isMenuOpen)
+  }
 
   return (
     <div className="flex justify-between w-full px-4 mb-16 pt-5">
       <div>
-        <Image
-          alt="LOGO"
-          width={70}
-          height={70}
-          src="/images/main_logo.png"
-        />
+        <Image alt="LOGO" width={70} height={70} src="/images/main_logo.png" />
       </div>
       <div className="hidden lg:block">
         <div className="flex justify-center items-center gap-3">
@@ -44,7 +39,7 @@ const Navbar: React.FC = () => {
         </button>
         <div
           className={`${
-            isMenuOpen ? "block" : "hidden"
+            isMenuOpen ? 'block' : 'hidden'
           } w-full p-2 block lg:flex lg:items-center lg:w-auto`}
         >
           <div className="flex absolute w-36 p-2 transition-all ease-in-out duration-400 right-2 rounded-lg bg-black text-white opacity-80 flex-col justify-start items-start gap-3">
@@ -61,6 +56,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
-export default Navbar;
+  )
+}
+export default Navbar

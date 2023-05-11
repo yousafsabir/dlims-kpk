@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "npx prettier --write ."
   },
   "dependencies": {
     "@types/is-empty": "^1.2.1",
@@ -29,5 +30,8 @@
     "react-loading": "^2.0.3",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8"
   }
 }

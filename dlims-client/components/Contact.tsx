@@ -1,70 +1,57 @@
-"use client";
-import React, { useState } from "react";
-import axios from "axios";
+'use client'
+import React, { useState } from 'react'
+import axios from 'axios'
 
 interface ContactFormFields {
-  name: string;
-  email: string;
-  phoneNumber: string;
-  message: string;
+  name: string
+  email: string
+  phoneNumber: string
+  message: string
 }
 
 const Contact: React.FC = () => {
-  const [contactFields, setcontactFields] =
-    useState<ContactFormFields>({
-      name: "",
-      email: "",
-      phoneNumber: "",
-      message: "",
-    });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [contactFields, setcontactFields] = useState<ContactFormFields>({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    message: '',
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
     try {
-      const res = await axios.post(
-        "/api/contact",
-        contactFields
-      );
-      console.log(res.data);
+      const res = await axios.post('/api/contact', contactFields)
+      console.log(res.data)
       setcontactFields({
-        name: "",
-        email: "",
-        phoneNumber: "",
-        message: "",
-      });
+        name: '',
+        email: '',
+        phoneNumber: '',
+        message: '',
+      })
     } catch (err) {
-      console.error(err);
-      setError(
-        "An error occurred. Please try again later."
-      );
+      console.error(err)
+      setError('An error occurred. Please try again later.')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setcontactFields((prevFields) => ({
       ...prevFields,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   return (
-    <div
-      id="Contact"
-      className="px-5 py-10 md:p-10 lg:p-16 flex flex-col"
-    >
+    <div id="Contact" className="px-5 py-10 md:p-10 lg:p-16 flex flex-col">
       <h1 className="text-[40px] p-10 text-center font-bold text-[#242A56]">
         Contact us
       </h1>
@@ -129,18 +116,12 @@ const Contact: React.FC = () => {
                   Send
                 </button>
               )}
-              {error && (
-                <p className="text-xs text-red-500">
-                  {error}
-                </p>
-              )}
+              {error && <p className="text-xs text-red-500">{error}</p>}
             </form>
           </div>
         </div>
         <div className="flex flex-col pt-16 md:pl-3 md:pt-0 min:w-80 md:max-w-xs xl:max-w-md space-y-3 text-[#242A56]">
-          <h2 className="text-3xl font-bold">
-            Get In Touch
-          </h2>
+          <h2 className="text-3xl font-bold">Get In Touch</h2>
           <h3 className="font-bold">Reach Us</h3>
           <div className="text-[#666666] space-y-3">
             <div className="flex justify-start">
@@ -148,8 +129,7 @@ const Contact: React.FC = () => {
                 <i className="fa fa-map-marker px-3 text-[#b1abd6]"></i>
               </span>
               <p className="">
-                Traffic police headquarters, phase 3
-                gulbahar, Peshawar KPK.
+                Traffic police headquarters, phase 3 gulbahar, Peshawar KPK.
               </p>
             </div>
             <p>
@@ -175,7 +155,7 @@ const Contact: React.FC = () => {
         ></iframe>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact
