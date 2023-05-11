@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { verifyToken } from '@/shared/utils/jwt'
 import HttpException from '@/shared/utils/HttpException'
 
-const authenticate:RequestHandler = (req, res, next) => {
+const authenticate: RequestHandler = (req, res, next) => {
   try {
     let key = req.headers.authorization
     if (!key) {
@@ -13,9 +13,7 @@ const authenticate:RequestHandler = (req, res, next) => {
     if (!decoded) {
       throw new HttpException(401, 'Not Authorized, Invalid Token')
     }
-    req.body.user = {
-      id: decoded.id,
-    }
+    req.headers.userId = decoded.id
     next()
   } catch (error) {
     console.error('Error in src/middlewares/auth.middleware.ts')
