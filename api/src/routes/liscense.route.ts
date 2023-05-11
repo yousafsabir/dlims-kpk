@@ -19,6 +19,6 @@ licenseRouter
 licenseRouter
   .route('/:id')
   .get(licenseController.getLicense)
-  .put(authenticate, upload.single('image'), licenseController.updateLicense)
+  .put(authenticate, upload.single('image'), validateData(licenseSchema.updateLicenseScehma) ,licenseController.updateLicense)
   .delete(authenticate, licenseController.deleteLicense)
 export default licenseRouter

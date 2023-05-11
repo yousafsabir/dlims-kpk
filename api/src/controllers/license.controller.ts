@@ -141,7 +141,7 @@ export async function updateLicense(
       license: license,
     })
   } catch (error) {
-    console.log('errorUpdate_>',error)
+    console.log('errorUpdate_>', error)
     if (error instanceof HttpException) {
       next(new HttpException(error.status, error.message, error.details))
     } else {

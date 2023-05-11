@@ -3,7 +3,7 @@ import z from 'zod'
 import { generateErrorMessage } from 'zod-error'
 
 const validateData =
-  (schema: z.AnyZodObject) =>
+  (schema: z.AnyZodObject | z.ZodOptional<z.AnyZodObject>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       req.body = await schema.parseAsync(req.body)
