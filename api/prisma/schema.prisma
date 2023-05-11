@@ -18,22 +18,6 @@ model User {
   @@map("users")
 }
 
-// model Image {
-//   fieldname    String
-//   originalname String
-//   encoding     String
-//   mimetype     String
-//   destination  String
-//   filename     String
-//   path         String
-//   size         Int
-
-//   @@unique([filename])
-// }
-
-// model LicenseCategory {
-// }
-
 model License {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   licenseNo  String   @unique
@@ -48,4 +32,16 @@ model License {
   updatedAt  DateTime @updatedAt
 
   @@map("licenses")
+}
+
+model Contact {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  phone     String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contacts")
 }

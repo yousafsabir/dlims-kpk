@@ -156,7 +156,7 @@ export async function deleteLicense(
 ) {
   try {
     const cnic = req.params.id
-    licenseService.deleteLicenseByCNIC(cnic)
+    await licenseService.deleteLicenseByCNIC(cnic)
     return res.status(200).json({
       message: 'License Deleted Succesfully',
     })
