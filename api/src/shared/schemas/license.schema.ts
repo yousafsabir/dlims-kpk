@@ -8,16 +8,10 @@ export const createLicenseSchema = z.object({
   category: z.string().transform((arg) => {
     return JSON.parse(arg)
   }),
-  issueDate: z
-    .string({ required_error: 'Issue Date Name is required' })
-    .transform((arg) => {
-      return new Date(arg)
-    }),
-  expiryDate: z
-    .string({ required_error: 'Expiry Date Name is required' })
-    .transform((arg) => {
-      return new Date(arg)
-    }),
+  
+  issueDate: z.string({ required_error: 'Issue Date Name is required' }),
+
+  expiryDate: z.string({ required_error: 'Expiry Date Name is required' }),
 })
 
 const licenseSchema = {
