@@ -9,7 +9,7 @@ const errorHandler = (
   res: TypedResponse<ResError>,
   next: NextFunction
 ) => {
-  console.error(err.message)
+  console.error("middleware err->",err.message)
   return res.status(err.status).json({
     message: err.message,
     details: err.details,

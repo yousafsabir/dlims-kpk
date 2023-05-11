@@ -42,8 +42,8 @@ model License {
   fatherName String
   cnic       String   @unique
   category   Json[]
-  issueDate  DateTime
-  expiryDate DateTime
+  issueDate  String
+  expiryDate String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 

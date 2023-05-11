@@ -28,8 +28,8 @@ export interface LicenseI {
     category: string
     place: number
   }>
-  issueDate: Date
-  expiryDate: Date
+  issueDate: string
+  expiryDate: string
 }
 
 export interface LicenseDocument extends Omit<LicenseI, 'image' | 'category'> {
