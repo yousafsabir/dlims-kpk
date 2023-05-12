@@ -2,13 +2,9 @@ import Navbar from './Navbar'
 
 const Header: React.FC = () => {
   return (
-    <div className="relative h-[100vh] w-full bg-[url('/images/banner.jpeg')] bg-no-repeat bg-cover bg-center">
-      <div className="absolute w-full h-full bg-black opacity-70" />
-      <div className="absolute w-full text-white tracking-wide">
-        <div>
-          <Navbar />
-        </div>
-        <div className="max-w-2xl mx-auto p-3 flex flex-col items-center text-center">
+    <div className="relative h-[90vh] w-full bg-header bg-no-repeat bg-cover bg-center">
+      <Navbar />
+        <div className="max-w-2xl mx-auto p-3 flex text-white flex-col items-center text-center lg:mt-[200px] md:mt-[175px] sm:mt-[50px]">
           <h3 className="text-xl">Be Respectful Citizen</h3>
           <h1 className="text-5xl p-5 font-bold">DLIMS KPK</h1>
           <p className="text-base">
@@ -21,7 +17,6 @@ const Header: React.FC = () => {
             public have access.
           </p>
         </div>
-      </div>
     </div>
   )
 }

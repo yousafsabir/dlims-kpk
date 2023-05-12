@@ -37,7 +37,12 @@ const Contact: React.FC = () => {
       const res = kyInstance.post(ApiUrls.contacts.create, {
         json: contactFields as any,
       })
-      toast.success('Email Successfully Received')
+      toast.success(
+        "Your Message has been Received.\n We'll contact you shortly",
+        {
+          duration: 5000,
+        }
+      )
       setcontactFields({
         name: '',
         email: '',
@@ -119,7 +124,7 @@ const Contact: React.FC = () => {
                 required
               />
               {isLoading ? (
-            <ReactLoading type="spin" width={32} height={32} color="#999" />
+                <ReactLoading type="spin" width={32} height={32} color="#999" />
               ) : (
                 <button
                   className="p-3 w-32 h-12 hover:bg-blue-500 active:bg-[#4D61D6] bg-[#4D61D6] text-white rounded-lg text-sm"

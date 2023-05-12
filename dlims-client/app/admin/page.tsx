@@ -4,15 +4,15 @@ import { useRouter } from 'next/navigation'
 import ky from 'ky'
 import ApiUrls from '@/constants/ApiUrls'
 import Licenses from './components/tabs/licenses/Licenses'
-import { Toaster } from 'react-hot-toast'
-import Contacts from './components/tabs/newContacts/Contacts'
+import toast, { Toaster } from 'react-hot-toast'
+import Contacts from './components/tabs/contacts/Contacts'
 import Image from 'next/image'
 import Link from 'next/link'
 
 const AdminPanel = () => {
   const router = useRouter()
   const [authToken, setAuthToken] = useState('')
-  const [navRout, setNavRout] = useState<string>("licenses")
+  const [navRout, setNavRout] = useState<string>('licenses')
 
   // ky instance
   const api = ky.create({
@@ -42,42 +42,49 @@ const AdminPanel = () => {
       })
     } catch (error) {
       setAuthToken('')
-      localStorage.removeItem('authToken')
-      router.push('/login')
+      toast.error('Your session is expired. Login again')
+      logout()
     }
   }
 
-  const handleLogOut = () => {
+  function logout() {
     localStorage.removeItem('authToken')
     router.push('/login')
-    setAuthToken('')
-  } 
+  }
 
   return (
     <>
-      <div className="flex justify-between w-full px-4 pt-5">
-        <div>
-          <Image alt="LOGO" width={70} height={70} src="/images/main_logo.png" />
+      <div className="max-w-5xl flex justify-between items-center mx-auto w-full px-2 py-5">
+        <Link href={'/'}>
+          <Image
+            alt="LOGO"
+            width={70}
+            height={70}
+            src="/images/main_logo.png"
+          />
+        </Link>
+        <div className="space-x-6">
+          <button
+            className={`text-xl ${
+              navRout === 'licenses' ? 'font-bold underline' : ''
+            }`}
+            onClick={() => setNavRout('licenses')}
+          >
+            Licenses
+          </button>
+          <button
+            className={`text-xl ${
+              navRout === 'contacts' ? 'font-bold underline' : ''
+            }`}
+            onClick={() => setNavRout('contacts')}
+          >
+            Contacts
+          </button>
         </div>
-        <div className="flex h-14 justify-center">
-          <div onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-            setNavRout("licenses")}
-            className="">
-            <h2 className='p-2 h-10 hover:cursor-pointer rounded-lg hover:text-gray-800 hover:bg-slate-100'>Licenses</h2>
-          </div>
-          <div onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-            setNavRout("contacts")}
-            className="">
-            <h2 className='p-2 h-10 hover:cursor-pointer rounded-lg hover:text-gray-800 hover:bg-slate-100'>Contacts</h2>
-          </div>
-          <button onClick={handleLogOut} className='p-2 h-10 hover:cursor-pointer rounded-lg hover:text-gray-800 hover:bg-gray-500'>LOG OUT</button>
-        </div>
+        <button className="btn btn-error">Logout</button>
       </div>
-      {
-        navRout === "licenses" ?
-          <Licenses /> :
-          <Contacts />
-      }
+      <hr className="mb-10" />
+      {navRout === 'licenses' ? <Licenses /> : <Contacts />}
       <Toaster />
     </>
   )

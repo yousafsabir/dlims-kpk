@@ -39,7 +39,7 @@ const useContacts = () => {
     sort: 'desc',
     pagination: {
       page: 1,
-      limit: 5,
+      limit: 15,
       total: 0,
       prev: false,
       next: false,
