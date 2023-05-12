@@ -29,7 +29,7 @@ const Licenses = () => {
     nextPage,
   } = useLicenses()
   return (
-    <div className="flex flex-col items-center mt-8">
+    <div id='adminLicenses' className="flex flex-col items-center">
       <h1 className="text-4xl text-center font-bold mb-6">Manage Licenses</h1>
       {/* Search Area */}
 

@@ -1,10 +1,12 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
+import { Contact, ContactsResponse } from './Contact.interface'
 import ApiUrls from '@/constants/ApiUrls'
 import useStatus from '@/shared/utils/useStatus'
 import toast from 'react-hot-toast'
 import ky from 'ky'
 import isEmpty from 'is-empty'
+
 
 const useContacts = () => {
   'use client'
@@ -13,7 +15,9 @@ const useContacts = () => {
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
     },
   })
+
   //* Status State
+
   const {
     status,
     setLoading,
@@ -25,13 +29,13 @@ const useContacts = () => {
 
   //*---------------------------------
 
-  const formRef = useRef<HTMLFormElement>(null)
-  const [editFlag, setEditFlag] = useState<boolean>(false)
 
- 
+  const formRef = useRef<HTMLFormElement>(null)
+
+  //*---------------------------------
+
   /* Search Parameters */
   const [search, setSearch] = useState({
-    cnic: '',
     sort: 'desc',
     pagination: {
       page: 1,
@@ -41,9 +45,8 @@ const useContacts = () => {
       next: false,
     },
   })
-
   const [searchChange, setSearchChange] = useState<string>('')
-  const searchStr = `?${search.cnic ? `cnic=${search.cnic}&` : ''}${
+  const searchStr = `?${
     search.pagination?.page ? `page=${search.pagination.page}&` : ''
   }${search.pagination?.limit ? `limit=${search.pagination.limit}&` : ''}${
     search.sort ? `sort=${search.sort}&` : ''
@@ -55,10 +58,8 @@ const useContacts = () => {
       sort: e.target.value,
     }))
   }
-
   const resetSearch = () => {
     setSearch({
-      cnic: '',
       sort: 'descending',
       pagination: {
         page: 1,
@@ -111,51 +112,11 @@ const useContacts = () => {
   }, [paginationChange])
   /* ---------------- */
 
-  //* Contacts State
+  //* Licenses State
+  const [contacts, setContacts] = useState<Contact[]>([])
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  console.log(contacts)
 
-  type Contact = {
-    _id: string;
-    name: string;
-    email: string;
-    phone: string;
-    message: string;
-    createdAt: string;
-  };
-  
-  type ContactsResponse = {
-    message: string;
-    contacts: Contact[];
-    pagination: {
-      page: number;
-      limit: number;
-      total: number;
-      prev: boolean;
-      next: boolean;
-    };
-  };
-
-
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const res = await kyInstance.get(ApiUrls.contacts.get );
-        const { contacts } = (await res.json()) as ContactsResponse;
-        setContacts(contacts);
-        setIsLoading(false);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchContacts();
-  }, [])
-
-  if (isLoading) {
-    return <p>Loading...</p>
-  }
 
   const getContacts = async (customSearch: string | undefined = undefined) => {
     try {
@@ -166,7 +127,8 @@ const useContacts = () => {
           ApiUrls.contacts.get + `${customSearch ? customSearch : searchStr}`
         )
         .json()
-      if (res.licenses) {
+      if (res.contacts) {
+        setContacts(res.contacts)
         setSuccess(res.message)
         setPagination(res.pagination)
       } else {
@@ -180,15 +142,16 @@ const useContacts = () => {
     }
   }
 
-  const onDeletContacts = async (email: string) => {
+  const onDeletContact = async (id: string) => {
     const confirmDelete = window.confirm(
-      'Are you sure you want to delete this license?'
+      'Are you sure you want to delete this contact?'
     )
     if (confirmDelete) {
-      const loadingToast = toast.loading('Deleting License')
+      const loadingToast = toast.loading('Deleting Contact')
       try {
-        const res = await kyInstance.delete(ApiUrls.contacts.delete + `${email}`)
-        toast.success('Contacts Deleted')
+        const res = await kyInstance.delete(ApiUrls.contacts.delete + `${id}`)
+        toast.success('Contact Deleted')
+        // getContacts()
       } catch (error) {
         console.log(error)
       } finally {
@@ -203,12 +166,9 @@ const useContacts = () => {
 
   return {
     status,
-    editFlag,
-    setEditFlag,
-    formRef,
-    onDeletContacts,
-    getContacts,
     contacts,
+    onDeletContact,
+    getContacts,
     // search & search handlers
     search,
     setSort,
