@@ -47,24 +47,30 @@ const AdminPanel = () => {
     }
   }
 
+  const handleLogOut = () => {
+    localStorage.removeItem('authToken')
+    router.push('/login')
+    setAuthToken('')
+  } 
+
   return (
     <>
       <div className="flex justify-between w-full px-4 pt-5">
         <div>
           <Image alt="LOGO" width={70} height={70} src="/images/main_logo.png" />
         </div>
-        <div className="">
+        <div className="flex h-14 justify-center">
           <div onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-            setNavRout("licenses")
-          }
-            className="p-2 rounded-lg hover:text-gray-800 hover:bg-slate-100">
-            <h2>Licenses</h2>
+            setNavRout("licenses")}
+            className="">
+            <h2 className='p-2 h-10 hover:cursor-pointer rounded-lg hover:text-gray-800 hover:bg-slate-100'>Licenses</h2>
           </div>
           <div onClick={(event: React.MouseEvent<HTMLDivElement>) =>
             setNavRout("contacts")}
-            className=" p-2 rounded-lg hover:text-gray-800 hover:bg-slate-100">
-            <h2>Contacts</h2>
+            className="">
+            <h2 className='p-2 h-10 hover:cursor-pointer rounded-lg hover:text-gray-800 hover:bg-slate-100'>Contacts</h2>
           </div>
+          <button onClick={handleLogOut} className='p-2 h-10 hover:cursor-pointer rounded-lg hover:text-gray-800 hover:bg-gray-500'>LOG OUT</button>
         </div>
       </div>
       {
@@ -72,8 +78,6 @@ const AdminPanel = () => {
           <Licenses /> :
           <Contacts />
       }
-      {/* <Licenses />
-      <Contacts /> */}
       <Toaster />
     </>
   )
