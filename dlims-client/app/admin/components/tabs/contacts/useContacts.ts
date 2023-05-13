@@ -115,9 +115,6 @@ const useContacts = () => {
   //* Licenses State
   const [contacts, setContacts] = useState<Contact[]>([])
 
-  console.log(contacts)
-
-
   const getContacts = async (customSearch: string | undefined = undefined) => {
     try {
       setLoading()

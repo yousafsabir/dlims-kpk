@@ -33,7 +33,6 @@ const Contact: React.FC = () => {
     setIsLoading(true)
     setError('')
     try {
-      console.log(contactFields, contactFields.email.indexOf)
       const res = kyInstance.post(ApiUrls.contacts.create, {
         json: contactFields as any,
       })

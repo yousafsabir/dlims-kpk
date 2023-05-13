@@ -21,7 +21,6 @@ function Login() {
           json: loginForm,
         })
         .json()
-      console.log('response', response)
       const user: Admin = response?.user
       localStorage.setItem('authToken', user.token)
       router.push('/admin')

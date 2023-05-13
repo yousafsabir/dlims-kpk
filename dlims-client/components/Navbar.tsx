@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className="max-w-5xl flex justify-between items-center text-white mx-auto w-full px-4 mb-16 pt-5">
+    <div className="max-w-7xl flex justify-between items-center text-white mx-auto w-full px-4 mb-16 pt-5">
       <div>
         <Image alt="LOGO" width={70} height={70} src="/images/main_logo.png" />
       </div>

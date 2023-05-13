@@ -185,7 +185,6 @@ const useLicenses = () => {
 
   //* Licenses State
   const [licenses, setLicenses] = useState<LicenseI[]>([])
-  console.log(licenses)
 
   const onAddAndUpdateLicense = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -355,10 +354,6 @@ const useLicenses = () => {
   useEffect(() => {
     getLicenses()
   }, [])
-
-  useEffect(() => {
-    console.log('licenses->', licenses)
-  }, [licenses])
 
   return {
     status,
