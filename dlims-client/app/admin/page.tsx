@@ -84,7 +84,7 @@ const AdminPanel = () => {
         <button className="btn btn-error">Logout</button>
       </div>
       <hr className="mb-10" />
-      {navRout === 'licenses' ? <Licenses /> : <Contacts />}
+      {navRout === 'licenses' ? <Licenses /> : navRout === 'contacts' ? <Contacts /> : null}
       <Toaster />
     </>
   )
