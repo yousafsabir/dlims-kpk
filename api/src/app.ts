@@ -2,7 +2,7 @@ import express, { Application, Router } from 'express'
 import cors, { CorsOptions } from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
-import morgan from 'morgan'
+import logger, { errorLogger } from '@/shared/config/logger'
 import Settings from '@/shared/config'
 import path from 'path'
 import errorHandler from './middlewares/error.middleware'
@@ -26,8 +26,12 @@ function App(router: Router): Application {
       callback(null, corsOptions)
     })
   )
-  app.use(morgan('dev'))
+  app.use(logger)
   app.use(compression())
+
+  app.get('/get', (req, res) => {
+    throw new Error('Hello')
+  })
 
   //* Request Parser
   app.use(express.json())
@@ -39,12 +43,13 @@ function App(router: Router): Application {
   })
 
   //* to serve static files
-  app.use('/public' ,express.static(path.join(__dirname, '../public')));
+  app.use('/public', express.static(path.join(__dirname, '../public')))
 
   //* Adding Root Router
   app.use('/api', router)
 
   //* Error handling middleware
+  app.use(errorLogger)
   app.use(errorHandler)
 
   return app
