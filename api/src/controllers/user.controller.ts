@@ -10,7 +10,7 @@ import asyncHandler from '@/shared/utils/asyncHandler'
 import HttpException from '@/shared/utils/HttpException'
 import { comparePassword } from '@/shared/utils/bcrypt'
 import { generateToken } from '@/shared/utils/jwt'
-import TrimUser from '@/shared/utils/trimUser'
+import UserDTO from '@/shared/dtos/user.dto'
 
 export const registerUser = asyncHandler(
   async (
@@ -22,7 +22,7 @@ export const registerUser = asyncHandler(
       const user = await userService.createUser(req.body)
       return res.status(201).json({
         message: 'User Created',
-        user: new TrimUser({ ...user, token: generateToken(user.id) }),
+        user: new UserDTO({ ...user, token: generateToken(user.id) }),
       })
     } catch (error: any) {
       if (error instanceof HttpException) {
@@ -51,7 +51,7 @@ export const loginUser = async function (
     }
     return res.status(200).json({
       message: 'Logged In Successfully',
-      user: new TrimUser({ ...user, token: generateToken(user.id) }),
+      user: new UserDTO({ ...user, token: generateToken(user.id) }),
     })
   } catch (error: any) {
     if (error instanceof HttpException) {

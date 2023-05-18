@@ -1,6 +1,6 @@
-import type { LicenseDocument } from '../interfaces/license.interface'
+import type { LicenseDocument } from '@/shared/interfaces/license.interface'
 
-class TrimLicense implements LicenseDocument {
+class LicenseDTO implements LicenseDocument {
   public id: string
   public licenseNo: string
   public name: string
@@ -28,4 +28,4 @@ class TrimLicense implements LicenseDocument {
   }
 }
 
-export default TrimLicense
+export default LicenseDTO
