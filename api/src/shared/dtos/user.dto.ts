@@ -1,6 +1,6 @@
-import type { UserInRes } from "../interfaces/user.interface";
+import type { UserInRes } from "@/shared/interfaces/user.interface";
 
-class TrimUser implements UserInRes {
+class UserDTO implements UserInRes {
     public id: string;
     public email: string;
     public name: string;
@@ -14,4 +14,4 @@ class TrimUser implements UserInRes {
     }
 }
 
-export default TrimUser
+export default UserDTO

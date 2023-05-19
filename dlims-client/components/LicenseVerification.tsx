@@ -1,20 +1,14 @@
 'use client'
 import { useState } from 'react'
-import axios from 'axios'
-
-interface VerificationData {
-  licenseNo: string
-  name: string
-  fatherName: string
-  licenseCategory: string
-  issueDate: string
-  expireDate: string
-}
+import ky from 'ky'
+import ApiUrls from '@/constants/ApiUrls'
+import { LicenseI } from '@/shared/interfaces/License.interface'
 
 const LicenseVerification = () => {
   const [cnic, setCnic] = useState<string>('')
-  const [verificationData, setVerificationData] =
-    useState<VerificationData | null>(null)
+  const [verificationData, setVerificationData] = useState<LicenseI | null>(
+    null
+  )
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -22,24 +16,11 @@ const LicenseVerification = () => {
     setCnic(event.target.value)
   }
 
-  //   const verificationDataDummy = [
-  //     {
-  //       licenseNo: "1111122222223",
-  //       name: "Raza",
-  //       fatherName: "Ahmed",
-  //       licenseCategory: "Bike",
-  //       issueDate: "03/30/2023",
-  //       expireDate: "03/30/2027",
-  //     },
-  //   ];
-
   const handleSearchClick = async () => {
     setLoading(true)
     try {
-      const response = await axios.get<VerificationData>(
-        `http://localhost:8000/verification/${cnic}`
-      )
-      setVerificationData(response.data)
+      const response: any = await ky.get(ApiUrls.licenses.get + cnic).json()
+      setVerificationData(response.license as LicenseI)
     } catch (error) {
       setError(
         'An error occurred while fetching verification data. Please try again later.'
@@ -75,41 +56,61 @@ const LicenseVerification = () => {
         <div className="w-full mt-10">
           <hr />
           <div className="sm:px-16 mt-10 mx-auto space-y-7 max-w-xl">
-            <div className="flex border-b-2 gap-2 xs:gap-5 font-bold">
-              <h2 className="text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
-                License Number:
-              </h2>
-              <p className=" sm:text-xl">{verificationData.licenseNo}</p>
+            <div className="w-full h-[150px] flex justify-center">
+              <img
+                src={ApiUrls.images + verificationData.image}
+                className="h-full object-contain flex-1"
+              />
             </div>
             <div className="flex border-b-2 gap-2b-2 gap-5 font-bold">
-              <h2 className="text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
+              <h2 className="text-left text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
                 Name:
               </h2>
               <p className=" sm:text-xl">{verificationData.name}</p>
             </div>
             <div className="flex border-b-2 gap-2 xs:gap-5 font-bold">
-              <h2 className="text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
+              <h2 className="text-left text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
                 Father Name:
               </h2>
               <p className=" sm:text-xl">{verificationData.fatherName}</p>
             </div>
             <div className="flex border-b-2 gap-2 xs:gap-5 font-bold">
-              <h2 className="text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
-                License Category:
+              <h2 className="text-left text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
+                CNIC:
               </h2>
-              <p className=" sm:text-xl">{verificationData.licenseCategory}</p>
+              <p className=" sm:text-xl">{verificationData.cnic}</p>
             </div>
             <div className="flex border-b-2 gap-2 xs:gap-5 font-bold">
-              <h2 className="text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
+              <h2 className="text-left text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
+                License Number:
+              </h2>
+              <p className=" sm:text-xl">{verificationData.licenseNo}</p>
+            </div>
+            <div className="flex border-b-2 gap-2 xs:gap-5 font-bold">
+              <h2 className="text-left text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
+                License Category:
+              </h2>
+              <p className=" sm:text-xl">
+                {verificationData.category.map((category, i) => {
+                  if (i !== verificationData.category.length - 1) {
+                    return category.category + ' / '
+                  } else {
+                    return category.category
+                  }
+                })}
+              </p>
+            </div>
+            <div className="flex border-b-2 gap-2 xs:gap-5 font-bold">
+              <h2 className="text-left text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
                 Issue Date:
               </h2>
               <p className=" sm:text-xl">{verificationData.issueDate}</p>
             </div>
             <div className="flex border-b-2 gap-2 xs:gap-5 font-bold">
-              <h2 className="text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
+              <h2 className="text-left text-gray-400 xs:min-w-[150px] sm:min-w-[180px] font-bold rounded-lg">
                 Expire Date:
               </h2>
-              <p className=" sm:text-xl">{verificationData.expireDate}</p>
+              <p className=" sm:text-xl">{verificationData.expiryDate}</p>
             </div>
           </div>
         </div>

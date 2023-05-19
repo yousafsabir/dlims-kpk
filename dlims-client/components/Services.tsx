@@ -12,6 +12,15 @@ const Services = () => {
       <div className="flex flex-wrap justify-center px-12 py-16 gap-5">
         <div className="flex flex-col flex-1 box-shadow rounded-xl min-w-[300px] max-w-[300px] h-72 p-5 items-center text-center">
           <div className="text-5xl p-3 text-[#6878D6]">
+            <i className="fa fa-motorcycle"></i>
+          </div>
+          <h1 className="text-2xl font-sans p-3 font-bold">Motorcycle</h1>
+          <p className="text-[#0a3847] text-sm">
+            Motorcycle driving license for safe Riding
+          </p>
+        </div>
+        <div className="flex flex-col flex-1 box-shadow rounded-xl min-w-[300px] max-w-[300px] h-72 p-5 items-center text-center">
+          <div className="text-5xl p-3 text-[#6878D6]">
             <i className="fa fa-car"></i>
           </div>
           <h1 className="text-2xl font-sans p-3 font-bold">MotorCar-Jeep</h1>
@@ -46,15 +55,6 @@ const Services = () => {
           <h1 className="text-2xl font-sans p-3 font-bold">PSV</h1>
           <p className="text-[#0a3847] text-sm">
             For Public service vehicles driving.
-          </p>
-        </div>
-        <div className="flex flex-col flex-1 box-shadow rounded-xl min-w-[300px] max-w-[300px] h-72 p-5 items-center text-center">
-          <div className="text-5xl p-3 text-[#6878D6]">
-            <i className="fa fa-motorcycle"></i>
-          </div>
-          <h1 className="text-2xl font-sans p-3 font-bold">Motorcycle</h1>
-          <p className="text-[#0a3847] text-sm">
-            Motorcycle driving license for safe Riding
           </p>
         </div>
       </div>

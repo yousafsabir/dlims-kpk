@@ -8,6 +8,7 @@ import useStatus from '@/shared/utils/useStatus'
 import toast from 'react-hot-toast'
 import ky from 'ky'
 import isEmpty from 'is-empty'
+import useRequestHandler from '@/shared/utils/useRequestHandler'
 
 const useLicenses = () => {
   'use client'
@@ -16,15 +17,8 @@ const useLicenses = () => {
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
     },
   })
-  //* Status State
-  const {
-    status,
-    setLoading,
-    setSuccess,
-    setError,
-    setMiniLoading,
-    resetStatus,
-  } = useStatus()
+  //* Request Handler
+  const { status, requestHandler } = useRequestHandler()
   //*---------------------------------
 
   //* Add/Edit License Form
@@ -41,26 +35,18 @@ const useLicenses = () => {
     issueDate: '',
     expiryDate: '',
   })
-  console.log('licenseForm-->', licenseForm)
+
   const handleLicenseForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = event.target
     if (name === 'image' && files) {
-      setLicenseForm((prevState) => ({
-        ...prevState,
-        image: files[0],
-      }))
+      const license = {...licenseForm, image: files[0]}
+      setLicenseForm(license)
     } else {
       setLicenseForm((prevForm) => ({
         ...prevForm,
         [name]: value,
       }))
     }
-    // else {
-    //   setLicenseForm((prevState) => ({
-    //     ...prevState,
-    //     [name]: value,
-    //   }));
-    // }
   }
 
   const handleCategory = (
@@ -85,7 +71,6 @@ const useLicenses = () => {
     setEditFlag(true)
     setLicenseForm({ ...license })
     setEditLicenseId(license.id)
-    console.log('licens>', license)
   }
 
   const resetLicenseForm = () => {
@@ -110,7 +95,7 @@ const useLicenses = () => {
     sort: 'desc',
     pagination: {
       page: 1,
-      limit: 5,
+      limit: 15,
       total: 0,
       prev: false,
       next: false,
@@ -192,7 +177,6 @@ const useLicenses = () => {
 
   //* Licenses State
   const [licenses, setLicenses] = useState<LicenseI[]>([])
-  console.log(licenses)
 
   const onAddAndUpdateLicense = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -200,11 +184,9 @@ const useLicenses = () => {
   }
 
   //Add & Update License
-  const addAndUpdateLicense = async () => {
-    const loadingToast = toast.loading(
-      `${editFlag ? 'Updating' : 'Adding'} License`
-    )
-    try {
+  const addAndUpdateLicense = requestHandler<any>(
+    {},
+    async ({}) => {
       // Form Data
       const form = new FormData()
       Object.entries(licenseForm).forEach(([key, value]) => {
@@ -216,6 +198,8 @@ const useLicenses = () => {
           } else {
             form.append(key, value)
           }
+        } else {
+          console.log(`${key} is empty`)
         }
       })
       if (editFlag) {
@@ -231,56 +215,59 @@ const useLicenses = () => {
         const res = kyInstance.post(ApiUrls.licenses.create, {
           body: form,
         })
-        toast.success('License Added')
       }
       resetLicenseForm()
-      getLicenses()
-    } catch (error) {
-      console.log(error)
-    } finally {
-      toast.dismiss(loadingToast)
+      setTimeout(() => getLicenses(), 1000)
+    },
+    {
+      showToast: true,
+      loadingMessage: `${editFlag ? 'Updating' : 'Adding'} License`,
+      successMessage: `License ${editFlag ? 'Updated' : 'Added'}`,
     }
+  )
+
+  const getLicenses = (customSearch: string | undefined = undefined) => {
+    requestHandler<{ customSearch: string | undefined }>(
+      {
+        customSearch,
+      },
+      async (args) => {
+        setSearchChange(searchStr)
+        const res: any = await kyInstance
+          .get(
+            ApiUrls.licenses.get +
+              `${args.customSearch ? args.customSearch : searchStr}`
+          )
+          .json()
+        if (res.licenses) {
+          setLicenses(res.licenses)
+          setPagination(res.pagination)
+        } else {
+          throw new Error('An error Occoured, refresh and try again')
+        }
+      },
+      {
+        loadingType: 'standard',
+        showToast: false,
+      }
+    )()
   }
 
-  const getLicenses = async (customSearch: string | undefined = undefined) => {
-    try {
-      setLoading()
-      setSearchChange(searchStr)
-      const res: any = await kyInstance
-        .get(
-          ApiUrls.licenses.get + `${customSearch ? customSearch : searchStr}`
-        )
-        .json()
-      if (res.licenses) {
-        setLicenses(res.licenses)
-        setSuccess(res.message)
-        setPagination(res.pagination)
-      } else {
-        throw new Error('An error Occoured, refresh and try again')
+  const onDeletLicense = (cnic: string) => {
+    requestHandler<{ cnic: string }>(
+      { cnic },
+      async (args) => {
+        await kyInstance.delete(ApiUrls.licenses.delete + `${args.cnic}`)
+        getLicenses()
+      },
+      {
+        confirmation: true,
+        confirmationMessage: 'Are you sure you want to delete this license?',
+        loadingMessage: 'Deleting Licenses',
+        successMessage: 'Licenses Deleted',
+        errorMessage: "Couldn't delete Licenses, Please Try again",
       }
-    } catch (error: any) {
-      console.log(error)
-      const message =
-        error?.response?.data?.message || error?.message || error.toString()
-      setError(message)
-    }
-  }
-
-  const onDeletLicense = async (cnic: string) => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this license?'
-    )
-    if (confirmDelete) {
-      const loadingToast = toast.loading('Deleting License')
-      try {
-        const res = await kyInstance.delete(ApiUrls.licenses.delete + `${cnic}`)
-        toast.success('License Deleted')
-      } catch (error) {
-        console.log(error)
-      } finally {
-        toast.dismiss(loadingToast)
-      }
-    }
+    )()
   }
 
   const formFields = [
@@ -362,10 +349,6 @@ const useLicenses = () => {
   useEffect(() => {
     getLicenses()
   }, [])
-
-  useEffect(() => {
-    console.log('licenses->', licenses)
-  }, [licenses])
 
   return {
     status,

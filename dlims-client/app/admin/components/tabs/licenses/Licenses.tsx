@@ -29,7 +29,7 @@ const Licenses = () => {
     nextPage,
   } = useLicenses()
   return (
-    <div className="flex flex-col items-center mt-8">
+    <div id="adminLicenses" className="flex flex-col items-center">
       <h1 className="text-4xl text-center font-bold mb-6">Manage Licenses</h1>
       {/* Search Area */}
 
@@ -78,7 +78,7 @@ const Licenses = () => {
                   <img
                     src={
                       typeof licenseForm.image === 'string'
-                        ? licenseForm.image
+                        ? ApiUrls.images + licenseForm.image
                         : URL.createObjectURL(licenseForm.image)
                     }
                     className="h-full object-contain flex-1"
@@ -203,6 +203,7 @@ const Licenses = () => {
               <th className="border border-gray-300 px-4 py-2">
                 License Number
               </th>
+              <th className="border border-gray-300 px-4 py-2">CNIC</th>
               <th className="border border-gray-300 px-4 py-2">Name</th>
               <th className="border border-gray-300 px-4 py-2">Father Name</th>
               <th className="border border-gray-300 px-4 py-2">
@@ -219,11 +220,17 @@ const Licenses = () => {
                 <td className="border border-gray-300 px-4 py-2">
                   <div className="h-[70px] flex justify-center">
                     {/* <img src={ApiUrls.images + license.image} alt="" /> */}
-                    <img src="http://localhost:5000/public/images/47eb69d5-c44a-49ba-9b7a-7b2fda9b1272.jpeg" alt="" />
+                    <img
+                      src={ApiUrls.images + license.image}
+                      alt=""
+                    />
                   </div>
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {license.licenseNo}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {license.cnic}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {license.name}

@@ -8,7 +8,7 @@ import licenseService from '@/services/license.service'
 import HttpException from '@/shared/utils/HttpException'
 import deleteFile from '@/shared/utils/deleteFile'
 import { Pagination } from '@/shared/interfaces/pagination.interface'
-import TrimLicense from '@/shared/utils/trimLicense'
+import LicenseDTO from '@/shared/dtos/license.dto'
 
 export async function createLicense(
   req: TypedRequest<LicenseI>,
@@ -26,7 +26,7 @@ export async function createLicense(
     })
     return res.status(201).json({
       message: 'License Added Succesfully',
-      license: new TrimLicense(license),
+      license: new LicenseDTO(license),
     })
   } catch (error) {
     if (error instanceof HttpException) {
@@ -50,7 +50,7 @@ export async function getLicense(
     }
     return res.status(200).json({
       message: 'Get License Succesfully',
-      license: new TrimLicense(license),
+      license: new LicenseDTO(license),
     })
   } catch (error) {
     if (error instanceof HttpException) {
@@ -103,7 +103,7 @@ export async function getLicenses(
       startIdx,
       sort as string
     )
-    const trimmedLicenses = licenses.map((license) => new TrimLicense(license))
+    const trimmedLicenses = licenses.map((license) => new LicenseDTO(license))
 
     return res.status(200).json({
       message: 'Get Licenses Succesfully',
@@ -141,7 +141,7 @@ export async function updateLicense(
     }
     return res.status(200).json({
       message: 'Updated License Succesfully',
-      license: new TrimLicense(license),
+      license: new LicenseDTO(license),
     })
   } catch (error) {
     console.log('errorUpdate_>', error)
