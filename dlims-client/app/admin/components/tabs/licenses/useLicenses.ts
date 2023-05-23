@@ -1,10 +1,8 @@
 'use client'
-import axios from 'axios'
 import React, { useState, useEffect, useRef } from 'react'
 import { LicenseI } from '@/shared/interfaces/License.interface'
 import { LicenseFormI } from './License.interface'
 import ApiUrls from '@/constants/ApiUrls'
-import useStatus from '@/shared/utils/useStatus'
 import toast from 'react-hot-toast'
 import ky from 'ky'
 import isEmpty from 'is-empty'
@@ -12,11 +10,16 @@ import useRequestHandler from '@/shared/utils/useRequestHandler'
 
 const useLicenses = () => {
   'use client'
+  const [authToken, setAuthToken] = useState('')
   const kyInstance = ky.create({
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${authToken}`,
     },
   })
+  useEffect(() => {
+    const token = localStorage.getItem('authToken')
+    if (token) setAuthToken(token)
+  }, [])
   //* Request Handler
   const { status, requestHandler } = useRequestHandler()
   //*---------------------------------
@@ -39,7 +42,7 @@ const useLicenses = () => {
   const handleLicenseForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = event.target
     if (name === 'image' && files) {
-      const license = {...licenseForm, image: files[0]}
+      const license = { ...licenseForm, image: files[0] }
       setLicenseForm(license)
     } else {
       setLicenseForm((prevForm) => ({

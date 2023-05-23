@@ -1,7 +1,6 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState,  } from 'react'
 import ReactLoading from 'react-loading'
-import axios from 'axios'
 import ky from 'ky'
 import ApiUrls from '@/constants/ApiUrls'
 import { Toaster, toast } from 'react-hot-toast'
@@ -23,17 +22,12 @@ const Contact: React.FC = () => {
     message: '',
   })
 
-  const kyInstance = ky.create({
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-    },
-  })
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
     try {
-      const res = kyInstance.post(ApiUrls.contacts.create, {
+      const res = ky.post(ApiUrls.contacts.create, {
         json: contactFields as any,
       })
       toast.success(

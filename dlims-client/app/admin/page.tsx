@@ -23,13 +23,12 @@ const AdminPanel = () => {
 
   // Admin Auth
   useEffect(() => {
-    if (typeof window !== undefined) {
       const token = localStorage.getItem('authToken')
       if (!token) {
         return router.push('/login')
       }
+      setAuthToken(token)
       authenticate(token)
-    }
   }, [])
 
   // authenticate me

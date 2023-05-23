@@ -1,20 +1,24 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import { Contact, ContactsResponse } from './Contact.interface'
+import { Contact } from './Contact.interface'
 import ApiUrls from '@/constants/ApiUrls'
 import useStatus from '@/shared/utils/useStatus'
 import toast from 'react-hot-toast'
 import ky from 'ky'
-import isEmpty from 'is-empty'
 
 
 const useContacts = () => {
   'use client'
+  const [authToken, setAuthToken] = useState('')
   const kyInstance = ky.create({
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${authToken}`,
     },
   })
+  useEffect(() => {
+    const token = localStorage.getItem('authToken')
+    if (token) setAuthToken(token)
+  }, [])
 
   //* Status State
 
