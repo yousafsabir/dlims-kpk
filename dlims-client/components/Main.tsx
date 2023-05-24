@@ -14,8 +14,8 @@ const Main: React.FC = () => {
         <h1 className="text-4xl p-5 font-bold">License Verification</h1>
       </div>
       <LicenseVerification />
-      <div className="bg-[#EFF2FF] rounded-lg py-[70px] mt-16 px-5 w-full flex flex-col items-center justify-center text-center">
-        <h1 className="text-3xl text-[#242A56] dark:text-[#ffff] font-semibold ">
+      <div className="bg-[#EFF2FF] text-[#242A56] rounded-lg py-[70px] mt-16 px-5 w-full flex flex-col items-center justify-center text-center">
+        <h1 className="text-3xl font-semibold ">
           "Online License Verification"
         </h1>
         <p className="max-w-[726px]">
@@ -30,7 +30,7 @@ const Main: React.FC = () => {
         <h1 className="text-3xl font-bold tracking-normal">
           "Why Driving License is Important"
         </h1>
-        <p>
+        <p className='dark:text-[#ffff]'>
           Driving without Driving License can be deadly harm for you & others.
           You are requested to read Road Safety & Sign make your driving smooth
           & Obtain Driving License. "Driving License is mandatory in KPK"

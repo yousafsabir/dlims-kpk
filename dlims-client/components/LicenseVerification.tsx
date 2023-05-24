@@ -31,7 +31,7 @@ const LicenseVerification = () => {
 
   return (
     <div className="w-full px-7 leading-5 py-5 max-w-[700px] box-shadow h-max min-h-[220px] flex flex-col text-center items-center text-[#666666] rounded-2xl border-[3px] border-blue-600">
-      <h2 className="text-2xl xs:text-3xl mt-2">
+      <h2 className="text-2xl xs:text-3xl mt-2 dark:text-[#ffff]">
         Driving License Verification
         <span className="text-blue-500 pl-2 font-bold">Panel</span>
       </h2>

@@ -62,7 +62,7 @@ const Contact: React.FC = () => {
 
   return (
     <div id="Contact" className="px-5 py-10 md:p-10 lg:p-16 flex flex-col">
-      <h1 className="text-[40px] p-10 text-center font-bold text-[#242A56] dark:text-[#ffff] ">
+      <h1 className="text-[40px] p-10 text-center font-bold text-[#242A56] dark:text-[#666666] ">
         Contact us
       </h1>
       <div className="flex flex-col justify-center md:flex-row lg:mx-auto lg:gap-16 lg:max-w-5xl md:justify-between">
