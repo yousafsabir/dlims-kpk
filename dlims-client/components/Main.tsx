@@ -15,7 +15,7 @@ const Main: React.FC = () => {
       </div>
       <LicenseVerification />
       <div className="bg-[#EFF2FF] rounded-lg py-[70px] mt-16 px-5 w-full flex flex-col items-center justify-center text-center">
-        <h1 className="text-3xl text-[#242A56] font-semibold ">
+        <h1 className="text-3xl text-[#242A56] dark:text-[#ffff] font-semibold ">
           "Online License Verification"
         </h1>
         <p className="max-w-[726px]">

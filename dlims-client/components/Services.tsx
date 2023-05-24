@@ -15,7 +15,7 @@ const Services = () => {
             <i className="fa fa-motorcycle"></i>
           </div>
           <h1 className="text-2xl font-sans p-3 font-bold">Motorcycle</h1>
-          <p className="text-[#0a3847] text-sm">
+          <p className="text-[#0a3847] dark:text-[#ffff] text-sm">
             Motorcycle driving license for safe Riding
           </p>
         </div>
@@ -24,7 +24,7 @@ const Services = () => {
             <i className="fa fa-car"></i>
           </div>
           <h1 className="text-2xl font-sans p-3 font-bold">MotorCar-Jeep</h1>
-          <p className="text-[#0a3847] text-sm">
+          <p className="text-[#0a3847] dark:text-[#ffff] text-sm">
             Motorcar/Jeep driving license is valid only for non-commercial cars.
           </p>
         </div>
@@ -33,7 +33,7 @@ const Services = () => {
             <i className="fa fa-taxi"></i>
           </div>
           <h1 className="text-2xl font-sans p-3 font-bold">LTV</h1>
-          <p className="text-[#0a3847] text-sm">
+          <p className="text-[#0a3847] dark:text-[#ffff] text-sm">
             Light transport vehicle driving license is valid for commercial
             car-taxi , jeep , Mini bus and lightweight transport.
           </p>
@@ -43,7 +43,7 @@ const Services = () => {
             <i className="fa fa-truck"></i>
           </div>
           <h1 className="text-2xl font-sans p-3 font-bold">HTV</h1>
-          <p className="text-[#0a3847] text-sm">
+          <p className="text-[#0a3847] dark:text-[#ffff] text-sm">
             Heavy transport vehicle driving license is valid for buses , trucks
             , trailers , and any type of heavy transport.
           </p>
@@ -53,7 +53,7 @@ const Services = () => {
             <i className="fa fa-bus"></i>
           </div>
           <h1 className="text-2xl font-sans p-3 font-bold">PSV</h1>
-          <p className="text-[#0a3847] text-sm">
+          <p className="text-[#0a3847] dark:text-[#ffff] text-sm">
             For Public service vehicles driving.
           </p>
         </div>
