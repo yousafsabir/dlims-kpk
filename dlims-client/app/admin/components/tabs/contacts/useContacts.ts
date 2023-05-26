@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Contact } from './Contact.interface'
 import ApiUrls from '@/constants/ApiUrls'
 import useStatus from '@/shared/utils/useStatus'
-import toast from 'react-hot-toast'
 import ky from 'ky'
 import useRequestHandler from '@/shared/utils/useRequestHandler'
 
@@ -123,95 +122,44 @@ const useContacts = () => {
   //* Licenses State
   const [contacts, setContacts] = useState<Contact[]>([])
 
-  const getContacts = async (customSearch: string | undefined = undefined) => {
-    // try {
-    //   setLoading()
-    //   setSearchChange(searchStr)
-    //   const res: any = await kyInstance
-    //     .get(
-    //       ApiUrls.contacts.get + `${customSearch ? customSearch : searchStr}`
-    //     )
-    //     .json()
-    //   if (res.contacts) {
-    //     setContacts(res.contacts)
-    //     setSuccess(res.message)
-    //     setPagination(res.pagination)
-    //   } else {
-    //     throw new Error('An error Occoured, refresh and try again')
-    //   }
-    // } catch (error: any) {
-    //   console.log(error)
-    //   const message =
-    //     error?.response?.data?.message || error?.message || error.toString()
-    //   setError(message)
-    // }
-    requestHandler<{ customSearch: string | undefined }>(
-      {
-        customSearch,
-      },
-      async (args) => {
-        setSearchChange(searchStr)
-        const res: any = await kyInstance
-          .get(
-            ApiUrls.contacts.get +
-              `${args.customSearch ? args.customSearch : searchStr}`
-          )
-          .json()
-        if (res.contacts) {
-          setContacts(res.contacts)
-          setSuccess(res.message)
-          setPagination(res.pagination)
-        } else {
-          throw new Error('An error Occoured, refresh and try again')
-        }
-      },
-      {
-        loadingType: 'standard',
-        showToast: false,
+const getContacts = (customSearch: string | undefined = undefined) =>
+  requestHandler(
+  async () => {
+      setSearchChange(searchStr)
+      const res: any = await kyInstance
+        .get(
+          ApiUrls.contacts.get +
+            `${customSearch ? customSearch : searchStr}`
+        )
+        .json()
+      if (res.contacts) {
+        setContacts(res.contacts)
+        setSuccess(res.message)
+        setPagination(res.pagination)
+      } else {
+        throw new Error('An error Occoured, refresh and try again')
       }
-    )()
-  }
-
-  // const getOrders = (customSearch: string | undefined = undefined) =>
-  //       requestHandler(
-  //           async () => {
-  //               setSearchChange(searchStr)
-  //               const res = await axiosClient.post(
-  //                   Apis.orders.get +
-  //                       `${customSearch ? customSearch : searchStr}`
-  //               )
-  //               if (!isEmpty(search.orderId) && !isEmpty(res.data.order)) {
-  //                   setOrders([res.data.order])
-  //               } else if (res.data.orders) {
-  //                   setOrders(res.data.orders)
-  //                   setPagination(res.data.pagination)
-  //               } else {
-  //                   throw new Error('An error Occoured, refresh and try again')
-  //               }
-  //           },
-  //           {
-  //               loadingType: 'standard',
-  //               showToast: false,
-  //           }
-  //       )
-
-  const onDeletContact = async (id: string) => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this contact?'
-    )
-    if (confirmDelete) {
-      const loadingToast = toast.loading('Deleting Contact')
-      try {
-        const res = await kyInstance.delete(ApiUrls.contacts.delete + `${id}`)
-        toast.success('Contact Deleted')
-        // getContacts()
-      } catch (error) {
-        console.log(error)
-      } finally {
-        toast.dismiss(loadingToast)
-      }
+    },
+    {
+      loadingType: 'standard',
+      showToast: false,
     }
-  }
+  )
+
+  const onDeletContact = (id: string) =>
+    requestHandler(
+      async () => {
+        await kyInstance.delete(ApiUrls.contacts.delete + `${id}`)
+        getContacts()
+      },
+      {
+        confirmation: true,
+        confirmationMessage: 'Are you sure you want to delete this license?',
+        loadingMessage: 'Deleting Licenses',
+        successMessage: 'Licenses Deleted',
+        errorMessage: "Couldn't delete Licenses, Please Try again",
+      }
+    )
 
   useEffect(() => {
     getContacts()
