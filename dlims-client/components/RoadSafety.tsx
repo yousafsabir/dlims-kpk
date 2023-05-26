@@ -11,12 +11,12 @@ const RoadSafety: React.FC = () => {
         <h3 className="text-xl text-[#242A56] font-semibold ">
           We're care about our Citizens
         </h3>
-        <p className="max-w-[726px] text-[#242A56] text-lg">
+        <p className="max-w-[726px] text-[#242A56]  text-lg">
           Motorcycle Rider’s are requested to obtain their driving license must.
         </p>
       </div>
 
-      <div className="flex flex-col xl:flex-row gap-5 text-[#242A56]">
+      <div className="flex flex-col xl:flex-row gap-5 text-[#242A56] dark:text-[#ffff]">
         <div className="flex flex-col md:flex-1 space-y-6">
           <h1 className="text-5xl font-semibold ">Road Safety Rules</h1>
           <div className="space-y-3">
