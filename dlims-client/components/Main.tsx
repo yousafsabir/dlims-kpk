@@ -29,11 +29,11 @@ const Main: React.FC = () => {
           </p>
         </div>
         <Services />
-        <div className="w-full flex flex-col items-center max-w-lg text-center gap-4 dark:text-[#ffff]">
-          <h1 className="text-3xl font-bold tracking-normal ">
+        <div className="w-full font-bold flex flex-col items-center max-w-lg text-center gap-4 dark:text-[#ffff]">
+          <h1 className="text-3xl  tracking-normal ">
             "Why Driving License is Important"
           </h1>
-          <p className="dark:text-[#b7bedb]">
+          <p className="dark:text-[#b7bedb] tracking-wider">
             Driving without Driving License can be deadly harm for you & others.
             You are requested to read Road Safety & Sign make your driving
             smooth & Obtain Driving License. "Driving License is mandatory in

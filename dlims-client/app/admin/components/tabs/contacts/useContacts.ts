@@ -172,6 +172,29 @@ const useContacts = () => {
     )()
   }
 
+  // const getOrders = (customSearch: string | undefined = undefined) =>
+  //       requestHandler(
+  //           async () => {
+  //               setSearchChange(searchStr)
+  //               const res = await axiosClient.post(
+  //                   Apis.orders.get +
+  //                       `${customSearch ? customSearch : searchStr}`
+  //               )
+  //               if (!isEmpty(search.orderId) && !isEmpty(res.data.order)) {
+  //                   setOrders([res.data.order])
+  //               } else if (res.data.orders) {
+  //                   setOrders(res.data.orders)
+  //                   setPagination(res.data.pagination)
+  //               } else {
+  //                   throw new Error('An error Occoured, refresh and try again')
+  //               }
+  //           },
+  //           {
+  //               loadingType: 'standard',
+  //               showToast: false,
+  //           }
+  //       )
+
   const onDeletContact = async (id: string) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this contact?'
