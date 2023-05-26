@@ -5,6 +5,7 @@ import ApiUrls from '@/constants/ApiUrls'
 import useStatus from '@/shared/utils/useStatus'
 import toast from 'react-hot-toast'
 import ky from 'ky'
+import useRequestHandler from '@/shared/utils/useRequestHandler'
 
 
 const useContacts = () => {
@@ -19,6 +20,9 @@ const useContacts = () => {
     const token = localStorage.getItem('authToken')
     if (token) setAuthToken(token)
   }, [])
+
+  const { requestHandler } = useRequestHandler()
+
 
   //* Status State
 
@@ -120,27 +124,52 @@ const useContacts = () => {
   const [contacts, setContacts] = useState<Contact[]>([])
 
   const getContacts = async (customSearch: string | undefined = undefined) => {
-    try {
-      setLoading()
-      setSearchChange(searchStr)
-      const res: any = await kyInstance
-        .get(
-          ApiUrls.contacts.get + `${customSearch ? customSearch : searchStr}`
-        )
-        .json()
-      if (res.contacts) {
-        setContacts(res.contacts)
-        setSuccess(res.message)
-        setPagination(res.pagination)
-      } else {
-        throw new Error('An error Occoured, refresh and try again')
+    // try {
+    //   setLoading()
+    //   setSearchChange(searchStr)
+    //   const res: any = await kyInstance
+    //     .get(
+    //       ApiUrls.contacts.get + `${customSearch ? customSearch : searchStr}`
+    //     )
+    //     .json()
+    //   if (res.contacts) {
+    //     setContacts(res.contacts)
+    //     setSuccess(res.message)
+    //     setPagination(res.pagination)
+    //   } else {
+    //     throw new Error('An error Occoured, refresh and try again')
+    //   }
+    // } catch (error: any) {
+    //   console.log(error)
+    //   const message =
+    //     error?.response?.data?.message || error?.message || error.toString()
+    //   setError(message)
+    // }
+    requestHandler<{ customSearch: string | undefined }>(
+      {
+        customSearch,
+      },
+      async (args) => {
+        setSearchChange(searchStr)
+        const res: any = await kyInstance
+          .get(
+            ApiUrls.contacts.get +
+              `${args.customSearch ? args.customSearch : searchStr}`
+          )
+          .json()
+        if (res.contacts) {
+          setContacts(res.contacts)
+          setSuccess(res.message)
+          setPagination(res.pagination)
+        } else {
+          throw new Error('An error Occoured, refresh and try again')
+        }
+      },
+      {
+        loadingType: 'standard',
+        showToast: false,
       }
-    } catch (error: any) {
-      console.log(error)
-      const message =
-        error?.response?.data?.message || error?.message || error.toString()
-      setError(message)
-    }
+    )()
   }
 
   const onDeletContact = async (id: string) => {

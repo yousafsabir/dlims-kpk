@@ -9,8 +9,6 @@ export default function Home() {
     <div className="">
       <Header />
       <Main />
-      <RoadSafety />
-      <Contact />
       <Footer />
     </div>
   )
