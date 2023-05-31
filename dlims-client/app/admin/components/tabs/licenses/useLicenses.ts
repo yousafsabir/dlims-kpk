@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { LicenseI } from '@/shared/interfaces/License.interface'
 import { LicenseFormI } from './License.interface'
 import ApiUrls from '@/constants/ApiUrls'
-import toast from 'react-hot-toast'
 import ky from 'ky'
 import isEmpty from 'is-empty'
 import useRequestHandler from '@/shared/utils/useRequestHandler'
@@ -187,9 +186,8 @@ const useLicenses = () => {
   }
 
   //Add & Update License
-  const addAndUpdateLicense = requestHandler<any>(
-    {},
-    async ({}) => {
+  const addAndUpdateLicense = () => requestHandler(
+    async () => {
       // Form Data
       const form = new FormData()
       Object.entries(licenseForm).forEach(([key, value]) => {
@@ -213,7 +211,6 @@ const useLicenses = () => {
           })
           .json()
         setEditFlag(false)
-        toast.success('License Updated')
       } else {
         const res = kyInstance.post(ApiUrls.licenses.create, {
           body: form,
@@ -229,17 +226,14 @@ const useLicenses = () => {
     }
   )
 
-  const getLicenses = (customSearch: string | undefined = undefined) => {
-    requestHandler<{ customSearch: string | undefined }>(
-      {
-        customSearch,
-      },
-      async (args) => {
+  const getLicenses = (customSearch: string | undefined = undefined) => 
+    requestHandler(
+      async () => {
         setSearchChange(searchStr)
         const res: any = await kyInstance
           .get(
             ApiUrls.licenses.get +
-              `${args.customSearch ? args.customSearch : searchStr}`
+              `${customSearch ? customSearch : searchStr}`
           )
           .json()
         if (res.licenses) {
@@ -253,14 +247,12 @@ const useLicenses = () => {
         loadingType: 'standard',
         showToast: false,
       }
-    )()
-  }
+    )
 
-  const onDeletLicense = (cnic: string) => {
-    requestHandler<{ cnic: string }>(
-      { cnic },
-      async (args) => {
-        await kyInstance.delete(ApiUrls.licenses.delete + `${args.cnic}`)
+  const onDeletLicense = (cnic: string) =>
+    requestHandler(
+      async () => {
+        await kyInstance.delete(ApiUrls.licenses.delete + `${cnic}`)
         getLicenses()
       },
       {
@@ -270,8 +262,7 @@ const useLicenses = () => {
         successMessage: 'Licenses Deleted',
         errorMessage: "Couldn't delete Licenses, Please Try again",
       }
-    )()
-  }
+    )
 
   const formFields = [
     {

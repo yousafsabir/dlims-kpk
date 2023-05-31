@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Contact } from './Contact.interface'
 import ApiUrls from '@/constants/ApiUrls'
 import useStatus from '@/shared/utils/useStatus'
-import toast from 'react-hot-toast'
 import ky from 'ky'
+import useRequestHandler from '@/shared/utils/useRequestHandler'
 
 
 const useContacts = () => {
@@ -19,6 +19,9 @@ const useContacts = () => {
     const token = localStorage.getItem('authToken')
     if (token) setAuthToken(token)
   }, [])
+
+  const { requestHandler } = useRequestHandler()
+
 
   //* Status State
 
@@ -119,13 +122,14 @@ const useContacts = () => {
   //* Licenses State
   const [contacts, setContacts] = useState<Contact[]>([])
 
-  const getContacts = async (customSearch: string | undefined = undefined) => {
-    try {
-      setLoading()
+const getContacts = (customSearch: string | undefined = undefined) =>
+  requestHandler(
+  async () => {
       setSearchChange(searchStr)
       const res: any = await kyInstance
         .get(
-          ApiUrls.contacts.get + `${customSearch ? customSearch : searchStr}`
+          ApiUrls.contacts.get +
+            `${customSearch ? customSearch : searchStr}`
         )
         .json()
       if (res.contacts) {
@@ -135,31 +139,27 @@ const useContacts = () => {
       } else {
         throw new Error('An error Occoured, refresh and try again')
       }
-    } catch (error: any) {
-      console.log(error)
-      const message =
-        error?.response?.data?.message || error?.message || error.toString()
-      setError(message)
+    },
+    {
+      loadingType: 'standard',
+      showToast: false,
     }
-  }
+  )
 
-  const onDeletContact = async (id: string) => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this contact?'
-    )
-    if (confirmDelete) {
-      const loadingToast = toast.loading('Deleting Contact')
-      try {
-        const res = await kyInstance.delete(ApiUrls.contacts.delete + `${id}`)
-        toast.success('Contact Deleted')
-        // getContacts()
-      } catch (error) {
-        console.log(error)
-      } finally {
-        toast.dismiss(loadingToast)
+  const onDeletContact = (id: string) =>
+    requestHandler(
+      async () => {
+        await kyInstance.delete(ApiUrls.contacts.delete + `${id}`)
+        getContacts()
+      },
+      {
+        confirmation: true,
+        confirmationMessage: 'Are you sure you want to delete this license?',
+        loadingMessage: 'Deleting Licenses',
+        successMessage: 'Licenses Deleted',
+        errorMessage: "Couldn't delete Licenses, Please Try again",
       }
-    }
-  }
+    )
 
   useEffect(() => {
     getContacts()

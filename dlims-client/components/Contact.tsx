@@ -62,7 +62,7 @@ const Contact: React.FC = () => {
 
   return (
     <div id="Contact" className="px-5 py-10 md:p-10 lg:p-16 flex flex-col">
-      <h1 className="text-[40px] p-10 text-center font-bold text-[#242A56] dark:text-[#666666] ">
+      <h1 className="text-[40px] p-10 text-center font-bold text-[#242A56] dark:text-[#ffff] ">
         Contact us
       </h1>
       <div className="flex flex-col justify-center md:flex-row lg:mx-auto lg:gap-16 lg:max-w-5xl md:justify-between">
@@ -133,12 +133,12 @@ const Contact: React.FC = () => {
         <div className="flex flex-col pt-16 md:pl-3 md:pt-0 min:w-80 md:max-w-xs xl:max-w-md space-y-3 text-[#242A56] dark:text-[#ffff]">
           <h2 className="text-3xl font-bold">Get In Touch</h2>
           <h3 className="font-bold">Reach Us</h3>
-          <div className="text-[#666666] space-y-3">
+          <div className="text-[#666666] space-y-3 dark:text-[#9ca3af]">
             <div className="flex justify-start">
               <span>
                 <i className="fa fa-map-marker px-3 text-[#b1abd6]"></i>
               </span>
-              <p className="">
+              <p className="dark:text-[#9ca3af]">
                 Traffic police headquarters, phase 3 gulbahar, Peshawar KPK.
               </p>
             </div>
@@ -147,14 +147,14 @@ const Contact: React.FC = () => {
               dlimskpkgov@gmail.com
             </p>
             <p>
-              <i className="fa fa-phone p-3 text-[#b1abd6]"></i>
+              <i className="fa fa-phone p-3 text-[#b1abd6] "></i>
               +923330000000
             </p>
           </div>
         </div>
       </div>
       <div className="flex flex-col items-center pt-12">
-        <h1 className="text-[#666666] text-2xl font-bold p-4">
+        <h1 className="text-[#ffff] text-2xl font-bold p-4">
           Find us on the Map
         </h1>
         <iframe

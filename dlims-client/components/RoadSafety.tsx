@@ -18,12 +18,12 @@ const RoadSafety: React.FC = () => {
 
       <div className="flex flex-col xl:flex-row gap-5 text-[#242A56] dark:text-[#ffff]">
         <div className="flex flex-col md:flex-1 space-y-6">
-          <h1 className="text-5xl font-semibold ">Road Safety Rules</h1>
+          <h1 className="text-5xl font-semibold">Road Safety Rules</h1>
           <div className="space-y-3">
             <h2 className="text-3xl font-bold">
               ● Instructions for Car Drivers
             </h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               Always carry your driving license and important documents such as
               your vehicle registration certificate with you while driving
             </p>
@@ -32,7 +32,7 @@ const RoadSafety: React.FC = () => {
             <h2 className="text-3xl font-bold">
               ● Instructions for PSV Drivers
             </h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               Always carry your driving license and important documents such as
               your vehicle registration certificate, fitness certificate and
               route permit with you while driving.
@@ -42,7 +42,7 @@ const RoadSafety: React.FC = () => {
             <h2 className="text-3xl font-bold">
               ● Instructions for Motorcyclists
             </h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               The motorized two-wheeler rider is the one most likely to sustain
               serious injuries no matter what he hits- a pedestrian, a cat or
               another vehicle. Hence, the use of helmet is supposed to save the
@@ -53,7 +53,7 @@ const RoadSafety: React.FC = () => {
             <h2 className="text-3xl font-bold">
               ● Instructions for Bus and Truck Drivers
             </h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               They should be driven on the extreme left, speed governors are
               mandatory for them and the maximum speed limit for buses and
               trucks is 40 KMPH in city areas.
@@ -71,7 +71,7 @@ const RoadSafety: React.FC = () => {
             <h2 className="text-3xl font-bold">
               ● Instructions for Bus Commuters
             </h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               Bus commuters should never board or dashboard a moving bus.
               Maintaining a queue while boarding the bus will help avoid
               unnecessary hustle and bustle and will also save time.
@@ -79,20 +79,20 @@ const RoadSafety: React.FC = () => {
           </div>
           <div className="space-y-3">
             <h2 className="text-3xl font-bold">● Instructions for Cyclists</h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               Ride in a straight line for 10 meters
             </p>
           </div>
           <div className="space-y-3">
             <h2 className="text-3xl font-bold">Instructions for Pedestrians</h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               The most important safety tip to reduce pedestrian injuries and
               fatalities is to pay attention.
             </p>
           </div>
           <div className="space-y-3">
             <h2 className="text-3xl font-bold">● Instructions for Children</h2>
-            <p className="text-lg pl-7 tracking-wide">
+            <p className="text-lg pl-7 tracking-wide dark:text-[#b7bedb]">
               The advice given below on crossing the road is especially for
               children.
             </p>
@@ -101,7 +101,7 @@ const RoadSafety: React.FC = () => {
         <div className="flex flex-col md:flex-1 space-y-4 text-lg">
           <h2 className="text-3xl font-bold">DIVIDING LINES</h2>
           <div className="space-y-4">
-            <p>
+            <p className='dark:text-[#b7bedb]'>
               A dividing line is a road marking formed by a white/yellow line or
               two parallel white/yellow lines (broken or continuous) designed to
               separate the parts of a road to be used by vehicles travelling in
@@ -126,7 +126,7 @@ const RoadSafety: React.FC = () => {
             <h2 className="text-xl font-bold">
               Broken Line (or Broken Line to the left of a Continuous Line{' '}
             </h2>
-            <p>
+            <p className='dark:text-[#b7bedb]'>
               You must keep to the left of these lines. You may cross them to
               overtake or make a turn, but you must only do so if it is safe.
               Single Continuous Line (or Single Continous Line to the left of a
@@ -147,13 +147,13 @@ const RoadSafety: React.FC = () => {
               />
             </div>
             <div className="space-y-4">
-              <p>
+              <p className='dark:text-[#b7bedb]'>
                 You must keep to the left of these lines. You must not cross
                 these lines to overtake or make a U-Turn but may cross them to
                 enter or leave the road or to go past an obstruction..
               </p>
               <h2 className="text-xl font-bold">Avoiding an obstruction</h2>
-              <p>
+              <p className='dark:text-[#b7bedb]'>
                 You are permitted to cross single or double continous lines in
                 order to avoid an obstruction – This does not include a slower
                 moving vehicle or a vehicle stopped in a line of traffic, but
@@ -177,13 +177,13 @@ const RoadSafety: React.FC = () => {
                   height={200}
                 />
               </div>
-              <p>
+              <p className='dark:text-[#b7bedb]'>
                 When lanes are marked by broken lines the driver may change
                 lanes when it is safe to do so by indicating the intention
                 through proper signal..
               </p>
               <h1 className="text-xl font-bold">Straddling</h1>
-              <p>
+              <p className='dark:text-[#b7bedb]'>
                 When driving on a road marked with Lane Lines, you must keep
                 your vehicle entirely within a lane. It is an offence to
                 straddle a line. The red car in the illustration is straddling
@@ -207,7 +207,7 @@ const RoadSafety: React.FC = () => {
                   />
                 </div>
               </div>
-              <p>
+              <p className='dark:text-[#b7bedb]'>
                 Motorists are expected to change lanes while driving in the Lane
                 Change Zone (marked by lanes with broken lines) so that they are
                 in the appropriate line when they enter the No Lane Changing
@@ -216,7 +216,7 @@ const RoadSafety: React.FC = () => {
               </p>
 
               <h1 className="text-xl font-bold">EDGE LINES</h1>
-              <p>
+              <p className='dark:text-[#b7bedb]'>
                 These are continous lines at the edge of the carriageway and
                 mark the limits of the main carriageway upto which a driver can
                 safely venture.
@@ -239,7 +239,7 @@ const RoadSafety: React.FC = () => {
                   />
                 </div>
               </div>
-              <p>
+              <p className='dark:text-[#b7bedb]'>
                 You must not stop or park your vehicle in any area where a
                 continous yellow edge line is applied even to pick up or set
                 down passengers or goods..
