@@ -10,7 +10,13 @@ import errorHandler from './middlewares/error.middleware'
 function App(router: Router): Application {
   const app = express()
   //* Middlewares
-  app.use(helmet())
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: {
+        policy: 'cross-origin',
+      },
+    })
+  )
   app.use(
     cors(function (req, callback) {
       let corsOptions: CorsOptions
