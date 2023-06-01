@@ -1,43 +1,36 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { TypedRequest, TypedResponse } from '@/shared/utils/genericTypeUtils'
 import {
   ContactI,
   ContactDocument,
 } from '@/shared/interfaces/contact.interface'
 import contactService from '@/services/contact.service'
+import asyncHandler from '@/shared/utils/asyncHandler'
 import HttpException from '@/shared/utils/HttpException'
 import { Pagination } from '@/shared/interfaces/pagination.interface'
 
-export async function createContact(
-  req: TypedRequest<ContactI>,
-  res: TypedResponse<{ message: string; contact: ContactDocument }>,
-  next: NextFunction
-) {
-  try {
+export const createContact = asyncHandler(
+  async (
+    req: TypedRequest<ContactI>,
+    res: TypedResponse<{ message: string; contact: ContactDocument }>
+  ) => {
     const contact = await contactService.createContact(req.body)
     return res.status(201).json({
       message: 'Contact Added Succesfully',
       contact,
     })
-  } catch (error) {
-    if (error instanceof HttpException) {
-      next(new HttpException(error.status, error.message, error.details))
-    } else {
-      next(new HttpException(500, 'Internal Server Error'))
-    }
   }
-}
+)
 
-export async function getContacts(
-  req: Request,
-  res: TypedResponse<{
-    message: string
-    contacts: ContactDocument[]
-    pagination: Pagination
-  }>,
-  next: NextFunction
-) {
-  try {
+export const getContacts = asyncHandler(
+  async (
+    req: Request,
+    res: TypedResponse<{
+      message: string
+      contacts: ContactDocument[]
+      pagination: Pagination
+    }>
+  ) => {
     const { id, page, limit, sort } = req.query
     let pagination = {
       page: page ? parseInt(page as string) : 1,
@@ -75,21 +68,14 @@ export async function getContacts(
       contacts: contacts,
       pagination,
     })
-  } catch (error) {
-    if (error instanceof HttpException) {
-      next(new HttpException(error.status, error.message, error.details))
-    } else {
-      next(new HttpException(500, 'Internal Server Error'))
-    }
   }
-}
+)
 
-export async function updateContact(
-  req: TypedRequest<Partial<ContactDocument>>,
-  res: TypedResponse<{ message: string; contact: ContactDocument }>,
-  next: NextFunction
-) {
-  try {
+export const updateContact = asyncHandler(
+  async (
+    req: TypedRequest<Partial<ContactDocument>>,
+    res: TypedResponse<{ message: string; contact: ContactDocument }>
+  ) => {
     const id = req.params.id
     const data = req.body
     const contact = await contactService.updateContact(id, data)
@@ -97,34 +83,18 @@ export async function updateContact(
       message: 'Updated Contact Succesfully',
       contact: contact,
     })
-  } catch (error) {
-    if (error instanceof HttpException) {
-      next(new HttpException(error.status, error.message, error.details))
-    } else {
-      next(new HttpException(500, 'Internal Server Error'))
-    }
   }
-}
+)
 
-export async function deleteContact(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
+export const deleteContact = asyncHandler(
+  async (req: Request, res: Response) => {
     const id = req.params.id
     await contactService.deleteContactById(id)
     return res.status(200).json({
       message: 'Contact Deleted Succesfully',
     })
-  } catch (error) {
-    if (error instanceof HttpException) {
-      next(new HttpException(error.status, error.message, error.details))
-    } else {
-      next(new HttpException(500, 'Internal Server Error'))
-    }
   }
-}
+)
 
 const contactController = {
   createContact,

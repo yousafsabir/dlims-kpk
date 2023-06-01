@@ -1,4 +1,3 @@
-import { NextFunction } from 'express'
 import userService from '@/services/user.service'
 import type {
   UserRegister,
@@ -13,33 +12,20 @@ import { generateToken } from '@/shared/utils/jwt'
 import UserDTO from '@/shared/dtos/user.dto'
 
 export const registerUser = asyncHandler(
-  async (
-    req: TypedRequest<UserRegister>,
-    res: TypedResponse<UserReturn>,
-    next: NextFunction
-  ) => {
-    try {
-      const user = await userService.createUser(req.body)
-      return res.status(201).json({
-        message: 'User Created',
-        user: new UserDTO({ ...user, token: generateToken(user.id) }),
-      })
-    } catch (error: any) {
-      if (error instanceof HttpException) {
-        next(new HttpException(error.status, error.message, error.details))
-      } else {
-        next(new HttpException(500, 'Internal Server Error'))
-      }
-    }
+  async (req: TypedRequest<UserRegister>, res: TypedResponse<UserReturn>) => {
+    const user = await userService.createUser(req.body)
+    return res.status(201).json({
+      message: 'User Created',
+      user: new UserDTO({ ...user, token: generateToken(user.id) }),
+    })
   }
 )
 
-export const loginUser = async function (
-  req: TypedRequest<UserLogin>,
-  res: TypedResponse<UserReturn | any>,
-  next: NextFunction
-) {
-  try {
+export const loginUser = asyncHandler(
+  async (
+    req: TypedRequest<UserLogin>,
+    res: TypedResponse<UserReturn | any>
+  ) => {
     let user = await userService.getUserByEmail(req.body.email)
     if (!user) {
       throw new HttpException(404, "User Deoesn't Exist")
@@ -53,36 +39,21 @@ export const loginUser = async function (
       message: 'Logged In Successfully',
       user: new UserDTO({ ...user, token: generateToken(user.id) }),
     })
-  } catch (error: any) {
-    if (error instanceof HttpException) {
-      next(new HttpException(error.status, error.message, error.details))
-    } else {
-      next(new HttpException(500, 'Internal Server Error'))
-    }
   }
-}
+)
 
-export const authenticate = async function (
+export const authenticate = asyncHandler(async function (
   req: TypedRequest<{
     user: {
       id: string
     }
   }>,
-  res: TypedResponse<{ message: string }>,
-  next: NextFunction
+  res: TypedResponse<{ message: string }>
 ) {
-  try {
-    return res.status(200).json({
-      message: 'User Authenticated Successfully',
-    })
-  } catch (error: any) {
-    if (error instanceof HttpException) {
-      next(new HttpException(error.status, error.message, error.details))
-    } else {
-      next(new HttpException(500, 'Internal Server Error'))
-    }
-  }
-}
+  return res.status(200).json({
+    message: 'User Authenticated Successfully',
+  })
+})
 
 const userController = {
   registerUser,
