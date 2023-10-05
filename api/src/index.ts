@@ -1,5 +1,5 @@
 //* Load Env Vars
-import 'dotenv/config'
+import 'dotenv-flow/config'
 import App from '@/app'
 import rootRouter from '@/routes'
 import Settings from '@/shared/config'
