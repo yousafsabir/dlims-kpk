@@ -17,7 +17,7 @@ class LicenseDTO implements LicenseDocument {
     this.id = license.id
     this.licenseNo = license.licenseNo
     this.name = license.name
-    this.image = license.image.filename
+    this.image = (license.image as any)?.filename || ''
     this.fatherName = license.fatherName
     this.cnic = license.cnic
     this.category = license.category

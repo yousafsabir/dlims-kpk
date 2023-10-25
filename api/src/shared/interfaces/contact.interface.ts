@@ -1,3 +1,5 @@
+import { Contact } from '@prisma/client'
+
 export interface ContactI {
   name: string
   email: string
@@ -5,8 +7,4 @@ export interface ContactI {
   message: string
 }
 
-export interface ContactDocument extends ContactI {
-  id: string
-  createdAt: Date
-  updatedAt: Date
-}
+export interface ContactDocument extends Contact {}

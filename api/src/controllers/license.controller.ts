@@ -109,7 +109,7 @@ export const updateLicense = asyncHandler(
     const data = req.body
     let prevImgPath: any
     if (image) {
-      data.image = image
+      data.image = image as any
       const prevLicense = await licenseService.getLicenseById(id)
       const prevImage = prevLicense?.image as any
       prevImgPath = prevImage.path

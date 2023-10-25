@@ -1,3 +1,5 @@
+import { User } from '@prisma/client'
+
 export interface UserRegister {
   name: string
   email: string
@@ -9,13 +11,12 @@ export interface UserLogin {
   password: string
 }
 
-export interface UserDocument extends UserRegister {
-  id: string
-  createdAt: Date
-  updatedAt: Date
-}
+export interface UserDocument extends User {}
 
-export type UserInRes = Omit<UserDocument, 'password' | 'createdAt' | 'updatedAt'> & {
+export type UserInRes = Omit<
+  UserDocument,
+  'password' | 'createdAt' | 'updatedAt'
+> & {
   token: string
 }
 

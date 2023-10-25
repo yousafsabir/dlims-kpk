@@ -54,7 +54,7 @@ export async function getLicenses(
 
 export async function updateLicense(
   id: string,
-  license: Partial<LicenseDocument>
+  license: Partial<LicenseDocument> | any
 ) {
   return await db.license.update({
     where: {

@@ -1,3 +1,5 @@
+import { License } from '@prisma/client'
+
 interface Image {
   fieldname: string
   originalname: string
@@ -9,9 +11,13 @@ interface Image {
   size: number
 }
 
-export interface LicenseI {
-  licenseNo: string
-  name: string
+export interface LicenseDocument extends License {}
+
+export interface LicenseI
+  extends Omit<
+    LicenseDocument,
+    'id' | 'image' | 'category' | 'createdAt' | 'updatedAt'
+  > {
   image: {
     fieldname: string
     originalname: string
@@ -22,20 +28,8 @@ export interface LicenseI {
     path: string
     size: number
   }
-  fatherName: string
-  cnic: string
   category: Array<{
     category: string
     place: number
   }>
-  issueDate: string
-  expiryDate: string
-}
-
-export interface LicenseDocument extends Omit<LicenseI, 'image' | 'category'> {
-  id: string
-  image: any
-  category: any
-  createdAt: Date
-  updatedAt: Date
 }
